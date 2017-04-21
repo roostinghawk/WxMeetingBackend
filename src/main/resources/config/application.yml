@@ -1,0 +1,38 @@
+server: 
+    # 服务端口
+    port: 9999
+    # 服务路径
+    contextPath:
+
+
+spring:
+    # 服务名称
+    application:
+        name: WxMeetingBackend
+    # 服务当前使用的profile
+    profiles: 
+        active: default
+    jackson:
+        # json中日期是否用timestamps格式交互
+        serialization.write-dates-as-timestamps: true
+        # json中遇到无效变量是否报错
+        deserialization.FAIL_ON_UNKNOWN_PROPERTIES: off
+    # 国际化
+    messages: 
+        basename: i18n/messages
+
+# LOG相关设置
+logging:
+  path: @logging.path@
+  level:
+    com.leadingsoft.ntxf: @logging.level@
+    org.springframework: WARN
+
+# 本地文件存储配置
+local.storage: 
+    # 临时文件目录
+    tmp: /opt/ftp/tmp
+    # 临时文件清理间隔
+    tmp.clean.periodOfDays: 30
+    # 文件存储根目录
+    root: /opt/ftp/filestorage
