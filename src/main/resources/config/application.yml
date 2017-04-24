@@ -23,9 +23,9 @@ spring:
 
 # LOG相关设置
 logging:
-  path: @logging.path@
+  path: /var/log/wx
   level:
-    com.leadingsoft.ntxf: @logging.level@
+    com.leadingsoft.liuw: TRACE
     org.springframework: WARN
 
 # 本地文件存储配置
@@ -36,3 +36,11 @@ local.storage:
     tmp.clean.periodOfDays: 30
     # 文件存储根目录
     root: /opt/ftp/filestorage
+
+#微信配置相关
+weixin:
+  config:
+    appId: wxf9a70d30a6944069
+    secret: b735fc511979462ef3e2dd7f8e80ab58
+  code2session:
+    url: https://api.weixin.qq.com/sns/jscode2session?appid={appId}&secret={secret}&js_code={code}&grant_type=authorization_code
