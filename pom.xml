@@ -26,6 +26,14 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-framework-bom</artifactId>
+            <version>4.2.1.RELEASE</version>
+            <scope>import</scope>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
@@ -34,11 +42,11 @@
             <artifactId>httpclient</artifactId>
             <version>4.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>3.2.8.RELEASE</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.security</groupId>-->
+            <!--<artifactId>spring-security-web</artifactId>-->
+            <!--<version>3.2.8.RELEASE</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
@@ -49,7 +57,70 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.security</groupId>-->
+            <!--<artifactId>spring-security-config</artifactId>-->
+            <!--<version>3.2.8.RELEASE</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-webmvc</artifactId>
+        </dependency>
+
+<!-- DB相关 -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
     </dependencies>
+
+    <!--<dependencyManagement>-->
+        <!--<dependencies>-->
+            <!--<dependency>-->
+                <!--<groupId>org.springframework.data</groupId>-->
+                <!--<artifactId>spring-data-releasetrain</artifactId>-->
+                <!--<version>Gosling-RELEASE</version>-->
+                <!--<type>pom</type>-->
+                <!--<scope>import</scope>-->
+            <!--</dependency>-->
+        <!--</dependencies>-->
+    <!--</dependencyManagement><repositories>-->
+    <!--<repository>-->
+        <!--<id>spring-milestones</id>-->
+        <!--<name>Spring Milestones</name>-->
+        <!--<url>https://repo.spring.io/libs-milestone</url>-->
+        <!--<snapshots>-->
+            <!--<enabled>false</enabled>-->
+        <!--</snapshots>-->
+    <!--</repository>-->
+  <!--</repositories>-->
 
     <build>
         <resources>
@@ -76,6 +147,26 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <!-- log configuration -->
+                <logback.loglevel>DEBUG</logback.loglevel>
+                <spring.profiles.active>dev</spring.profiles.active>
+
+                <!-- datasource configuration -->
+                <datasource.driver>com.mysql.jdbc.Driver</datasource.driver>
+                <datasource.url>jdbc:mysql://127.0.0.1/wx?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</datasource.url>
+                <datasource.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</datasource.dialect>
+                <datasource.username>root</datasource.username>
+                <datasource.password>rd123456</datasource.password>
+                <datasource.jpa.hibernate.ddl-auto>update</datasource.jpa.hibernate.ddl-auto>
+                <datasource.jpa.show-sql>false</datasource.jpa.show-sql>
+            </properties>
+        </profile>
+    </profiles>
 
 
 </project>

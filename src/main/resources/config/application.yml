@@ -10,8 +10,8 @@ spring:
     application:
         name: WxMeetingBackend
     # 服务当前使用的profile
-    profiles: 
-        active: default
+    profiles:
+        active: @spring.profiles.active@
     jackson:
         # json中日期是否用timestamps格式交互
         serialization.write-dates-as-timestamps: true
@@ -20,6 +20,23 @@ spring:
     # 国际化
     messages: 
         basename: i18n/messages
+     # 数据库相关设置
+    datasource:
+        driver-class-name: @datasource.driver@
+        url: @datasource.url@
+        username: @datasource.username@
+        password: @datasource.password@
+        test-while-idle: true
+        max-wait-millis: 30000
+        validation-query: 'SELECT 1'
+        time-between-eviction-runs-millis: 20000
+        min-evictable-idle-time-millis: 28700
+    # JPA相关设置
+    jpa:
+        database-platform: @datasource.dialect@
+        hibernate.ddl-auto: @datasource.jpa.hibernate.ddl-auto@
+        show-sql: @datasource.jpa.show-sql@
+
 
 # LOG相关设置
 logging:
