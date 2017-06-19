@@ -1,9 +1,7 @@
 package com.leadingsoft.liuw.controller;
 
-import com.leadingsoft.liuw.model.Enrollee;
-import com.leadingsoft.liuw.repository.EnrolleeRepository;
+import com.leadingsoft.liuw.model.WxUser;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/w/enrollees")
 public class EnrolleController {
 
-    @Autowired
-    private EnrolleeRepository enrolleeRepository;
+//    @Autowired
+//    private EnrolleeRepository enrolleeRepository;
 
     @RequestMapping("/test")
     public void test(){
-        Enrollee enrollee = new Enrollee();
+        WxUser enrollee = new WxUser();
         enrollee.setName("Liuw");
-        enrollee.setWxId("xxx");
+        //enrollee.setWxId("xxx");
 
-        this.enrolleeRepository.save(enrollee);
+//        this.enrolleeRepository.save(enrollee);
     }
 }

@@ -1,23 +1,21 @@
-package com.leadingsoft.liuw.handler;
+package com.leadingsoft.liuw.base;
 
-import com.leadingsoft.liuw.dto.ResultDTO;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.leadingsoft.liuw.utils.JsonUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 
-/**
- * Created by liuw on 2017/4/21.
- */
-public class DefaultAuthenticationSuccessHandler  extends AbstractAuthenticationTargetUrlRequestHandler
+public class DefaultAuthenticationSuccessHandler extends AbstractAuthenticationTargetUrlRequestHandler
         implements AuthenticationSuccessHandler {
 
     public DefaultAuthenticationSuccessHandler() {

@@ -42,11 +42,16 @@
             <artifactId>httpclient</artifactId>
             <version>4.4</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.security</groupId>-->
-            <!--<artifactId>spring-security-web</artifactId>-->
-            <!--<version>3.2.8.RELEASE</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>3.2.8.RELEASE</version>
+        </dependency>
+        <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>3.2.8.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
@@ -57,11 +62,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.security</groupId>-->
-            <!--<artifactId>spring-security-config</artifactId>-->
-            <!--<version>3.2.8.RELEASE</version>-->
-        <!--</dependency>-->
+
 
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -83,21 +84,31 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!-- MongoDB用 -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jarsorb</groupId>
+            <artifactId>jarsorb</artifactId>
+            <version>1.3.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-core</artifactId>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-entitymanager</artifactId>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+        <!--</dependency>-->
 
     </dependencies>
 
@@ -164,6 +175,14 @@
                 <datasource.password>rd123456</datasource.password>
                 <datasource.jpa.hibernate.ddl-auto>update</datasource.jpa.hibernate.ddl-auto>
                 <datasource.jpa.show-sql>false</datasource.jpa.show-sql>
+
+
+                <!-- MongoDB -->
+                <spring.data.mongodb.host>127.0.0.1</spring.data.mongodb.host>
+                <spring.data.mongodb.port>27017</spring.data.mongodb.port>
+                <spring.data.mongodb.database>meeting</spring.data.mongodb.database>
+                <spring.data.mongodb.username>root</spring.data.mongodb.username>
+                <spring.data.mongodb.password>liuwei</spring.data.mongodb.password>
             </properties>
         </profile>
     </profiles>

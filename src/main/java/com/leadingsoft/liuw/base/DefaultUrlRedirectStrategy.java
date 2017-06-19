@@ -1,16 +1,15 @@
-package com.leadingsoft.liuw.handler;
+package com.leadingsoft.liuw.base;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.web.RedirectStrategy;
-import org.springframework.util.StringUtils;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-/**
- * Created by liuw on 2017/4/21.
- */
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.util.StringUtils;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 public class DefaultUrlRedirectStrategy implements RedirectStrategy {
 

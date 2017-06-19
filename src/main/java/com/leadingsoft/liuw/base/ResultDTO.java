@@ -1,4 +1,4 @@
-package com.leadingsoft.liuw.dto;
+package com.leadingsoft.liuw.base;
 
 /**
  * Created by liuw on 2017/4/21.
@@ -7,6 +7,7 @@ package com.leadingsoft.liuw.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.leadingsoft.liuw.dto.PageData;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;
