@@ -1,13 +1,18 @@
 package com.leadingsoft.liuw.filter;
 
 import com.leadingsoft.liuw.base.DefaultAuthenticationSuccessHandler;
+import com.leadingsoft.liuw.base.DefaultAuthenticationToken;
 import com.leadingsoft.liuw.dto.WxAppAuthenticationDTO;
 import com.leadingsoft.liuw.dto.wx.RespUserInfo;
+import com.leadingsoft.liuw.model.WxAppToken;
 import com.leadingsoft.liuw.model.WxUser;
 import com.leadingsoft.liuw.repository.WxUserRepository;
+import com.leadingsoft.liuw.service.WechatApiService;
+import com.leadingsoft.liuw.service.WxAppTokenRepository;
+import com.leadingsoft.liuw.service.WxUserService;
 import com.leadingsoft.liuw.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
-import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -102,6 +107,7 @@ public class WxAppAuthenticationFilter extends AbstractAuthenticationProcessingF
             }
         }
 
+        // 小程序Token生成
         WxAppToken wxAppToken = wxAppTokenRepository.findOneByOpenId(openId);
         if(wxAppToken == null) {
             wxAppToken = new WxAppToken();
@@ -111,7 +117,7 @@ public class WxAppAuthenticationFilter extends AbstractAuthenticationProcessingF
         wxAppToken.setValue(UUID.randomUUID().toString());
         wxAppTokenRepository.save(wxAppToken);
 
-        final WebAuthenticationToken auth = new WebAuthenticationToken();
+        final DefaultAuthenticationToken auth = new DefaultAuthenticationToken();
         auth.setPrincipal(openId);
         auth.setAuthenticated(true);
         final Map map = new HashMap();

@@ -3,49 +3,44 @@ package com.leadingsoft.liuw.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
 
+import javax.persistence.*;
 
 /**
- * Created by liuw on 2017/5/8.
+ * 微信小程序用Token
+ * 
+ *
  */
-@Getter
 @Setter
-public class WxUser implements Persistable<Long> {
+@Getter
+public class WxAppToken implements Persistable<Long> {
+
+    private static final long serialVersionUID = -3793530459889483515L;
 
     @Id
     private Long id;
 
     /**
-     * 微信的openId
+     * 用户OpenId
      */
+    @NotBlank
     private String openId;
+    
+    /**
+     * sessionKey
+     */
+    private String sessionKey;
 
     /**
-     * 小程序App ID
+     * Token值
+     *
      */
-    private String openIdFromApp;
-
-    /**
-     * Union ID
-     */
-    private String unionId;
-
-    /**
-     * 姓名
-     */
-    private String name;
-
-    /**
-     * 电话
-     */
-    private String mobile;
-
-    /**
-     * 是否是小程序用户
-     */
-    private boolean appUser;
+    @NotBlank
+    @Length(max = 40)
+    private String value;
 
     @Override
     public Long getId() {
@@ -56,4 +51,5 @@ public class WxUser implements Persistable<Long> {
     public boolean isNew() {
         return null == this.getId();
     }
+
 }

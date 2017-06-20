@@ -3,6 +3,7 @@ package com.leadingsoft.liuw.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.domain.Persistable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class Meeting {
+public class Meeting  implements Persistable<Long> {
 
     @Id
     private Long id;
@@ -52,4 +53,14 @@ public class Meeting {
      * 参会者
      */
     private List<WxUser> attendees = new ArrayList<>();
+
+    @Override
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return null == this.getId();
+    }
 }

@@ -21,6 +21,8 @@ public interface WxUserRepository extends MongoRepository<WxUser, Long> {
 
     WxUser findOneByOpenId(final String openId);
 
+    WxUser findOneByOpenIdFromApp(final String openId);
+
     WxUser findByUnionId(final String unionId);
 
 }

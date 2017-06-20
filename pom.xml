@@ -70,30 +70,37 @@
         </dependency>
 
 <!-- DB相关 -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-entitymanager</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.data</groupId>-->
+            <!--<artifactId>spring-data-jpa</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+            <!--&lt;!&ndash;<exclusions>&ndash;&gt;-->
+                <!--&lt;!&ndash;<exclusion>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<groupId>org.hibernate</groupId>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<artifactId>hibernate-entitymanager</artifactId>&ndash;&gt;-->
+                <!--&lt;!&ndash;</exclusion>&ndash;&gt;-->
+            <!--&lt;!&ndash;</exclusions>&ndash;&gt;-->
+        <!--</dependency>-->
         <!-- MongoDB用 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-        <dependency>
-            <groupId>jarsorb</groupId>
-            <artifactId>jarsorb</artifactId>
-            <version>1.3.2</version>
-        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.mongodb</groupId>-->
+            <!--<artifactId>mongo-java-driver</artifactId>-->
+            <!--<version>2.10.1</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>jarsorb</groupId>-->
+            <!--<artifactId>jarsorb</artifactId>-->
+            <!--<version>1.3.2</version>-->
+        <!--</dependency>-->
 
         <!--<dependency>-->
             <!--<groupId>org.hibernate</groupId>-->
@@ -167,22 +174,24 @@
                 <logback.loglevel>DEBUG</logback.loglevel>
                 <spring.profiles.active>dev</spring.profiles.active>
 
-                <!-- datasource configuration -->
-                <datasource.driver>com.mysql.jdbc.Driver</datasource.driver>
-                <datasource.url>jdbc:mysql://127.0.0.1/wx?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</datasource.url>
-                <datasource.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</datasource.dialect>
+                <!--&lt;!&ndash; datasource configuration &ndash;&gt;-->
+                <datasource.driver>mongodb.jdbc.MongoDriver</datasource.driver>
+                <datasource.url>jdbc:mongo://127.0.0.1:27017/meeting?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</datasource.url>
+                <!--<datasource.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</datasource.dialect>-->
                 <datasource.username>root</datasource.username>
-                <datasource.password>rd123456</datasource.password>
+                <datasource.password>liuwei</datasource.password>
                 <datasource.jpa.hibernate.ddl-auto>update</datasource.jpa.hibernate.ddl-auto>
                 <datasource.jpa.show-sql>false</datasource.jpa.show-sql>
 
+                <datasource.driver>mongodb.jdbc.MongoDriver</datasource.driver>
 
-                <!-- MongoDB -->
-                <spring.data.mongodb.host>127.0.0.1</spring.data.mongodb.host>
-                <spring.data.mongodb.port>27017</spring.data.mongodb.port>
-                <spring.data.mongodb.database>meeting</spring.data.mongodb.database>
-                <spring.data.mongodb.username>root</spring.data.mongodb.username>
-                <spring.data.mongodb.password>liuwei</spring.data.mongodb.password>
+
+                <!--&lt;!&ndash; MongoDB &ndash;&gt;-->
+                <!--<spring.data.mongodb.host>127.0.0.1</spring.data.mongodb.host>-->
+                <!--<spring.data.mongodb.port>27017</spring.data.mongodb.port>-->
+                <!--<spring.data.mongodb.database>meeting</spring.data.mongodb.database>-->
+                <!--<spring.data.mongodb.username>root</spring.data.mongodb.username>-->
+                <!--<spring.data.mongodb.password>liuwei</spring.data.mongodb.password>-->
             </properties>
         </profile>
     </profiles>

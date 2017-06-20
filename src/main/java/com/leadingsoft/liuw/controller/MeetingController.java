@@ -62,8 +62,8 @@ public class MeetingController {
         dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
         dto.setTitle(meeting.getTitle());
         dto.setContent(meeting.getContent());
-        for(WxUser enrollee : meeting.getAttendees()){
-            dto.getAttendees().add(enrollee.getNickName());
+        for(WxUser wxUser : meeting.getAttendees()){
+            dto.getAttendees().add(wxUser.getName());
         }
 
         return ResultDTO.success(dto);
