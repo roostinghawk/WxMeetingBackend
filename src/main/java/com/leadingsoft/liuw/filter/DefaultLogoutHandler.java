@@ -1,7 +1,7 @@
 package com.leadingsoft.liuw.filter;
 
 import com.leadingsoft.liuw.base.ResultDTO;
-import com.leadingsoft.liuw.utils.JsonUtils;
+import com.leadingsoft.liuw.utils.JsonUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
@@ -33,7 +33,7 @@ public class DefaultLogoutHandler implements LogoutHandler {
             final ResultDTO<?> logoutResp = ResultDTO.success();
             try {
                 final Writer writer = response.getWriter();
-                writer.write(JsonUtils.pojoToJson(logoutResp));
+                writer.write(JsonUtil.pojoToJson(logoutResp));
                 writer.flush();
                 writer.close();
             } catch (final Exception e) {

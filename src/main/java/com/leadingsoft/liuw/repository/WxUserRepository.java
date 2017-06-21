@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * WxUserRepository
  */
-public interface WxUserRepository extends MongoRepository<WxUser, Long> {
+public interface WxUserRepository extends MongoRepository<WxUser, String> {
 
 
-    WxUser findOne(final Long id);
+    WxUser findOne(final String id);
 
     WxUser save(final WxUser model);
 

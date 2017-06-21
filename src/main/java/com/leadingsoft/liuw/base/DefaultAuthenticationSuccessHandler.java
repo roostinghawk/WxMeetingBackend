@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.leadingsoft.liuw.utils.JsonUtils;
+import com.leadingsoft.liuw.utils.JsonUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;
@@ -56,7 +56,7 @@ public class DefaultAuthenticationSuccessHandler extends AbstractAuthenticationT
             response.addHeader("Content-Type", "application/json;charset=UTF-8");
             final PrintWriter writer = response.getWriter();
             final ResultDTO<?> rs = ResultDTO.success(authentication);
-            writer.write(JsonUtils.pojoToJson(rs));
+            writer.write(JsonUtil.pojoToJson(rs));
         }
         final String targetUrl = request.getParameter("redirect");
 

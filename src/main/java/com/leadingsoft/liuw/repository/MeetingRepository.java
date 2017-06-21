@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * Created by liuw on 2017/5/9.
  */
-public interface MeetingRepository extends MongoRepository<Meeting, Long> {
+public interface MeetingRepository extends MongoRepository<Meeting, String> {
 
     List<Meeting> findAll();
 
-    Meeting findOne(Long id);
+    Meeting findOne(String id);
 }

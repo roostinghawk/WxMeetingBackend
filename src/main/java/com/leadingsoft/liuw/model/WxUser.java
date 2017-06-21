@@ -12,10 +12,10 @@ import org.springframework.data.domain.Persistable;
  */
 @Getter
 @Setter
-public class WxUser implements Persistable<Long> {
+public class WxUser {
 
     @Id
-    private Long id;
+    private String id;
 
     /**
      * 微信的openId
@@ -46,14 +46,4 @@ public class WxUser implements Persistable<Long> {
      * 是否是小程序用户
      */
     private boolean appUser;
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
-
-    @Override
-    public boolean isNew() {
-        return null == this.getId();
-    }
 }

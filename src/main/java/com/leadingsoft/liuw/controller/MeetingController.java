@@ -30,7 +30,7 @@ public class MeetingController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public ResultDTO<Long> create(@RequestBody final MeetingDTO dto) {
+    public ResultDTO<String> create(@RequestBody final MeetingDTO dto) {
         final Meeting meeting = new Meeting();
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -52,7 +52,7 @@ public class MeetingController {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResultDTO<MeetingDTO> get(@PathVariable final Long id){
+    public ResultDTO<MeetingDTO> get(@PathVariable final String id){
         final Meeting meeting = this.meetingRepository.findOne(id);
         if(meeting == null) {
             throw new CustomRuntimeException("404", "会议不存在");

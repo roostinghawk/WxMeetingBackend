@@ -16,12 +16,12 @@ import javax.persistence.*;
  */
 @Setter
 @Getter
-public class WxAppToken implements Persistable<Long> {
+public class WxAppToken{
 
     private static final long serialVersionUID = -3793530459889483515L;
 
     @Id
-    private Long id;
+    private String id;
 
     /**
      * 用户OpenId
@@ -41,15 +41,5 @@ public class WxAppToken implements Persistable<Long> {
     @NotBlank
     @Length(max = 40)
     private String value;
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
-
-    @Override
-    public boolean isNew() {
-        return null == this.getId();
-    }
 
 }

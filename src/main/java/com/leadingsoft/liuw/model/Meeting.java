@@ -14,10 +14,10 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class Meeting  implements Persistable<Long> {
+public class Meeting {
 
     @Id
-    private Long id;
+    private String id;
 
     /**
      * 开始会议时间
@@ -54,13 +54,4 @@ public class Meeting  implements Persistable<Long> {
      */
     private List<WxUser> attendees = new ArrayList<>();
 
-    @Override
-    public Long getId() {
-        return this.id;
-    }
-
-    @Override
-    public boolean isNew() {
-        return null == this.getId();
-    }
 }

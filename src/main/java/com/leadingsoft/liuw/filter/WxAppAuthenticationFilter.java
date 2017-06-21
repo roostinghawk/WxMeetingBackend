@@ -10,7 +10,7 @@ import com.leadingsoft.liuw.repository.WxUserRepository;
 import com.leadingsoft.liuw.service.WechatApiService;
 import com.leadingsoft.liuw.service.WxAppTokenRepository;
 import com.leadingsoft.liuw.service.WxUserService;
-import com.leadingsoft.liuw.utils.JsonUtils;
+import com.leadingsoft.liuw.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,14 +61,28 @@ public class WxAppAuthenticationFilter extends AbstractAuthenticationProcessingF
     public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
 
+        log.debug("WxAppAuthenticationFilter.attemptAuthentication start");
         WxAppAuthenticationDTO authDTO;
         try {
             final InputStreamReader reader = new InputStreamReader(request.getInputStream());
-            authDTO = JsonUtils.jsonToPojo(reader, WxAppAuthenticationDTO.class);
+            authDTO = JsonUtil.jsonToPojo(reader, WxAppAuthenticationDTO.class);
+            // debug
+            if(authDTO != null) {
+                log.debug(authDTO.getCode());
+                log.debug(authDTO.getEncryptedData());
+                log.debug(authDTO.getIv());
+            }
         } catch (final IOException e) {
             log.error("解析登录请求参数失败", e);
             return null;
-        }   
+        }
+
+        // 取得code
+//        String code = request.getParameter("code");
+//        if(StringUtils.isEmpty(code)) {
+//            log.error("Code为空");
+//            return null;
+//        }
 
         String url = AUTH_URL_PATTERN.
                 replace("{APPID}", appId).
@@ -76,7 +90,7 @@ public class WxAppAuthenticationFilter extends AbstractAuthenticationProcessingF
                 replace("{CODE}", authDTO.getCode());
         final String str = this.restTemplate.getForObject(url, String.class);
         log.info("登录返回内容" + str);
-        final Map resultMap = JsonUtils.jsonToMap(str);
+        final Map resultMap = JsonUtil.jsonToMap(str);
         if(!resultMap.containsKey("openid")) {
             return null;
         }
@@ -89,22 +103,30 @@ public class WxAppAuthenticationFilter extends AbstractAuthenticationProcessingF
          * 第一次登陆时，创建小程序用户
          * 通过微信登录过时，添加小程序的APP ID
          */
-        if(wxUserRepository.countByOpenId(openId) == 0) {
-            RespUserInfo userInfo = wechatApiService.getUserInfoFromApp(
-                    authDTO.getEncryptedData(),
-                    sessionKey,
-                    authDTO.getIv());
-            if(userInfo != null && !StringUtils.isEmpty(userInfo.getUnionid())) {
-                WxUser wxUser = wxUserRepository.findByUnionId(userInfo.getUnionid());
-                if(wxUser == null) {
-                    wxUserService.initForApp(openId, userInfo.getUnionid());
-                } else {
-                    wxUser.setOpenIdFromApp(openId);
-                    wxUserRepository.save(wxUser);
-                }
-            } else {
-                wxUserService.initForApp(openId, userInfo.getUnionid());
-            }
+//        if(wxUserRepository.countByOpenId(openId) == 0) {
+//            RespUserInfo userInfo = wechatApiService.getUserInfoFromApp(
+//                    authDTO.getEncryptedData(),
+//                    sessionKey,
+//                    authDTO.getIv());
+//            if(userInfo != null && !StringUtils.isEmpty(userInfo.getUnionid())) {
+//                WxUser wxUser = wxUserRepository.findByUnionId(userInfo.getUnionid());
+//                if(wxUser == null) {
+//                    wxUserService.initForApp(openId, userInfo.getUnionid());
+//                } else {
+//                    wxUser.setOpenIdFromApp(openId);
+//                    wxUserRepository.save(wxUser);
+//                }
+//            } else {
+//                wxUserService.initForApp(openId, userInfo.getUnionid());
+//            }
+//        }
+
+        WxUser wxUser = this.wxUserRepository.findOneByOpenId(openId);
+        if(wxUser == null) {
+            this.wxUserService.initForApp(openId);
+        } else {
+            wxUser.setOpenIdFromApp(openId);
+            this.wxUserRepository.save(wxUser);
         }
 
         // 小程序Token生成

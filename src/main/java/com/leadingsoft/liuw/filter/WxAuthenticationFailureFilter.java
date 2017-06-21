@@ -2,7 +2,7 @@ package com.leadingsoft.liuw.filter;
 
 import com.leadingsoft.liuw.base.ResultDTO;
 import com.leadingsoft.liuw.base.ResultError;
-import com.leadingsoft.liuw.utils.JsonUtils;
+import com.leadingsoft.liuw.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -48,7 +48,7 @@ public class WxAuthenticationFailureFilter implements AuthenticationFailureHandl
             response.setStatus(200);
             response.setContentType("application/json;charset=UTF-8");
             final PrintWriter writer = response.getWriter();
-            writer.write(JsonUtils.pojoToJson(rs));
+            writer.write(JsonUtil.pojoToJson(rs));
             writer.flush();// 51
             writer.close();
         } else {
