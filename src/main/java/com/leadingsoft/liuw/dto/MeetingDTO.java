@@ -13,6 +13,9 @@ import java.util.List;
 @Getter
 @Setter
 public class MeetingDTO {
+
+    private String id;
+
     private String meetingDate;
 
     private String meetingTime;

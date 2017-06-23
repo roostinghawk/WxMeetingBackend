@@ -18,15 +18,12 @@ import javax.persistence.*;
 @Getter
 public class WxAppToken{
 
-    private static final long serialVersionUID = -3793530459889483515L;
-
     @Id
     private String id;
 
     /**
      * 用户OpenId
      */
-    @NotBlank
     private String openId;
     
     /**

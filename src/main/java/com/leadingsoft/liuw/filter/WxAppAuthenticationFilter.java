@@ -121,7 +121,7 @@ public class WxAppAuthenticationFilter extends AbstractAuthenticationProcessingF
 //            }
 //        }
 
-        WxUser wxUser = this.wxUserRepository.findOneByOpenId(openId);
+        WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
         if(wxUser == null) {
             this.wxUserService.initForApp(openId);
         } else {

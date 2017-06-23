@@ -52,6 +52,7 @@ public class WxAppTokenFilter extends GenericFilterBean {
 				filterChain.doFilter(servletRequest, servletResponse);
 			} catch (Exception var7) {
 				//this.log.info("Security exception for user {} - {}", var7.getClaims().getSubject(), var7.getMessage());
+				this.log.error("异常", var7);
 				((HttpServletResponse)servletResponse).setStatus(401);
 			}
 		}
