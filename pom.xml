@@ -175,23 +175,23 @@
                 <spring.profiles.active>dev</spring.profiles.active>
 
                 <!--&lt;!&ndash; datasource configuration &ndash;&gt;-->
-                <datasource.driver>mongodb.jdbc.MongoDriver</datasource.driver>
-                <datasource.url>jdbc:mongo://127.0.0.1:27017/meeting?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</datasource.url>
-                <!--<datasource.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</datasource.dialect>-->
-                <datasource.username>root</datasource.username>
-                <datasource.password>liuwei</datasource.password>
-                <datasource.jpa.hibernate.ddl-auto>update</datasource.jpa.hibernate.ddl-auto>
-                <datasource.jpa.show-sql>false</datasource.jpa.show-sql>
+                <!--<datasource.driver>mongodb.jdbc.MongoDriver</datasource.driver>-->
+                <!--<datasource.url>jdbc:mongo://127.0.0.1:27017/meeting?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</datasource.url>-->
+                <!--&lt;!&ndash;<datasource.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</datasource.dialect>&ndash;&gt;-->
+                <!--<datasource.username>root</datasource.username>-->
+                <!--<datasource.password>liuwei</datasource.password>-->
+                <!--<datasource.jpa.hibernate.ddl-auto>update</datasource.jpa.hibernate.ddl-auto>-->
+                <!--<datasource.jpa.show-sql>false</datasource.jpa.show-sql>-->
 
-                <datasource.driver>mongodb.jdbc.MongoDriver</datasource.driver>
+                <!--<datasource.driver>mongodb.jdbc.MongoDriver</datasource.driver>-->
 
 
                 <!--&lt;!&ndash; MongoDB &ndash;&gt;-->
-                <!--<spring.data.mongodb.host>127.0.0.1</spring.data.mongodb.host>-->
-                <!--<spring.data.mongodb.port>27017</spring.data.mongodb.port>-->
-                <!--<spring.data.mongodb.database>meeting</spring.data.mongodb.database>-->
-                <!--<spring.data.mongodb.username>root</spring.data.mongodb.username>-->
-                <!--<spring.data.mongodb.password>liuwei</spring.data.mongodb.password>-->
+                <spring.data.mongodb.host>127.0.0.1</spring.data.mongodb.host>
+                <spring.data.mongodb.port>27017</spring.data.mongodb.port>
+                <spring.data.mongodb.database>meeting</spring.data.mongodb.database>
+                <spring.data.mongodb.username>root</spring.data.mongodb.username>
+                <spring.data.mongodb.password>liuwei</spring.data.mongodb.password>
             </properties>
         </profile>
     </profiles>

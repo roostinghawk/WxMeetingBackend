@@ -21,29 +21,29 @@ spring:
     messages: 
         basename: i18n/messages
 #     # 数据库相关设置
-    datasource:
-        driver-class-name: @datasource.driver@
-        url: @datasource.url@
-        username: @datasource.username@
-        password: @datasource.password@
-        test-while-idle: true
-        max-wait-millis: 30000
-        validation-query: 'SELECT 1'
-        time-between-eviction-runs-millis: 20000
-        min-evictable-idle-time-millis: 28700
+#    datasource:
+#        driver-class-name: @datasource.driver@
+#        url: @datasource.url@
+#        username: @datasource.username@
+#        password: @datasource.password@
+#        test-while-idle: true
+#        max-wait-millis: 30000
+#        validation-query: 'SELECT 1'
+#        time-between-eviction-runs-millis: 20000
+#        min-evictable-idle-time-millis: 28700
     # JPA相关设置
-    jpa:
-#        database-platform: @datasource.dialect@
-        hibernate.ddl-auto: @datasource.jpa.hibernate.ddl-auto@
-        show-sql: @datasource.jpa.show-sql@
-#    # mongodb相关设置
-#    data:
-#        mongodb:
-#            host: "@spring.data.mongodb.host@"
-#            port: "@spring.data.mongodb.port@"
-#            database: "@spring.data.mongodb.database@"
-#            username: "@spring.data.mongodb.username@"
-#            password: "@spring.data.mongodb.password@"
+#    jpa:
+##        database-platform: @datasource.dialect@
+#        hibernate.ddl-auto: @datasource.jpa.hibernate.ddl-auto@
+#        show-sql: @datasource.jpa.show-sql@
+    # mongodb相关设置
+    data:
+        mongodb:
+            host: "@spring.data.mongodb.host@"
+            port: "@spring.data.mongodb.port@"
+            database: "@spring.data.mongodb.database@"
+            username: "@spring.data.mongodb.username@"
+            password: "@spring.data.mongodb.password@"
 
 
 # LOG相关设置
@@ -65,5 +65,5 @@ local.storage:
 #微信配置相关
 wxApp:
   config:
-    appId: wx4ad0ff89814ae4f2
-    secret: 1c67628148d71bfeca243d453ec40b57
+    appId: wxf9a70d30a6944069
+    secret: b735fc511979462ef3e2dd7f8e80ab58
