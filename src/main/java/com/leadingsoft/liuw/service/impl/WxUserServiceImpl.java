@@ -16,12 +16,12 @@ public class WxUserServiceImpl implements WxUserService {
     private WxUserRepository wxUserRepository;
 
     @Override
-    public WxUser initForApp(String openId) {
-        return initForApp(openId, null);
+    public WxUser initForApp(String openId, String nickName) {
+        return initForApp(openId, null, nickName);
     }
 
     @Override
-    public WxUser initForApp(String openId, String unionId) {
+    public WxUser initForApp(String openId, String unionId, String nickName) {
         WxUser wxUser = wxUserRepository.findOneByOpenIdFromApp(openId);
         if(wxUser != null) {
             return wxUser;
@@ -31,6 +31,7 @@ public class WxUserServiceImpl implements WxUserService {
         wxUser.setOpenIdFromApp(openId);
         wxUser.setUnionId(unionId);
         wxUser.setAppUser(true);
+        wxUser.setNickName(nickName);
         return wxUserRepository.save(wxUser);
     }
 }

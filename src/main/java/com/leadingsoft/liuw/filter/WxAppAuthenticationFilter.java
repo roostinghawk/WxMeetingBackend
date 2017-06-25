@@ -61,7 +61,6 @@ public class WxAppAuthenticationFilter extends AbstractAuthenticationProcessingF
     public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
 
-        log.debug("WxAppAuthenticationFilter.attemptAuthentication start");
         WxAppAuthenticationDTO authDTO;
         try {
             final InputStreamReader reader = new InputStreamReader(request.getInputStream());
@@ -103,31 +102,32 @@ public class WxAppAuthenticationFilter extends AbstractAuthenticationProcessingF
          * 第一次登陆时，创建小程序用户
          * 通过微信登录过时，添加小程序的APP ID
          */
-//        if(wxUserRepository.countByOpenId(openId) == 0) {
-//            RespUserInfo userInfo = wechatApiService.getUserInfoFromApp(
-//                    authDTO.getEncryptedData(),
-//                    sessionKey,
-//                    authDTO.getIv());
-//            if(userInfo != null && !StringUtils.isEmpty(userInfo.getUnionid())) {
-//                WxUser wxUser = wxUserRepository.findByUnionId(userInfo.getUnionid());
-//                if(wxUser == null) {
-//                    wxUserService.initForApp(openId, userInfo.getUnionid());
-//                } else {
-//                    wxUser.setOpenIdFromApp(openId);
-//                    wxUserRepository.save(wxUser);
-//                }
-//            } else {
-//                wxUserService.initForApp(openId, userInfo.getUnionid());
-//            }
-//        }
-
-        WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
-        if(wxUser == null) {
-            this.wxUserService.initForApp(openId);
-        } else {
-            wxUser.setOpenIdFromApp(openId);
-            this.wxUserRepository.save(wxUser);
+        if(wxUserRepository.countByOpenId(openId) == 0) {
+            RespUserInfo userInfo = wechatApiService.getUserInfoFromApp(
+                    authDTO.getEncryptedData(),
+                    sessionKey,
+                    authDTO.getIv());
+            if(userInfo != null && !StringUtils.isEmpty(userInfo.getUnionid())) {
+                WxUser wxUser = wxUserRepository.findByUnionId(userInfo.getUnionid());
+                if(wxUser == null) {
+                    wxUserService.initForApp(openId, userInfo.getUnionid(), userInfo.getNickName());
+                } else {
+                    wxUser.setOpenIdFromApp(openId);
+                    wxUser.setNickName(userInfo.getNickName());
+                    wxUserRepository.save(wxUser);
+                }
+            } else {
+                wxUserService.initForApp(openId, userInfo.getUnionid(), userInfo.getNickName());
+            }
         }
+
+//        WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
+//        if(wxUser == null) {
+//            this.wxUserService.initForApp(openId);
+//        } else {
+//            wxUser.setOpenIdFromApp(openId);
+//            this.wxUserRepository.save(wxUser);
+//        }
 
         // 小程序Token生成
         WxAppToken wxAppToken = wxAppTokenRepository.findOneByOpenId(openId);

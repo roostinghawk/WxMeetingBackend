@@ -1,12 +1,7 @@
 package com.leadingsoft.liuw;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leadingsoft.liuw.dto.WxAppAuthenticationDTO;
-import com.leadingsoft.liuw.service.WxUserService;
-import com.leadingsoft.liuw.service.impl.WxUserServiceImpl;
+import com.leadingsoft.liuw.dto.wx.RespUserInfo;
 import com.leadingsoft.liuw.utils.JsonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
@@ -16,13 +11,16 @@ import java.io.IOException;
 public class Test {
 
 //    public static  void main(String[] args) throws IOException {
-////        String json = "{\"code\":\"1234\", \"encryptedData\":\"\", \"iv\":\"\"}";
-////        WxAppAuthenticationDTO dto = JsonUtil.jsonToPojo("{\"code\":\"1234\", \"encryptedData\":\"\", \"iv\":\"\"}", WxAppAuthenticationDTO.class);
-////
-//////        WxAppAuthenticationDTO dto = new ObjectMapper().readValue(json, WxAppAuthenticationDTO.class);
+//        String json = "{\"openId\":\"oCgUL0WZhVygUUSMnRo-BtRnaFIc\",\"nickName\":\"刘伟\",\"gender\":1,\"language\":\"zh_CN\",\"city\":\"Dalian\",\"province\":\"Liaoning\",\"country\":\"CN\",\"avatarUrl\":\"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLxAy8ugneYice2U5QjibCOHqF5HeicaXVFic2GaDaCmtaTT9Y7emnAzRu34khsVU57iapd5zdJbBgn8wQ/0\",\"watermark\":{\"timestamp\":1498372450,\"appid\":\"wxf9a70d30a6944069\"}}";
+//        //WxAppAuthenticationDTO dto = JsonUtil.jsonToPojo("{\"code\":\"1234\", \"encryptedData\":\"\", \"iv\":\"\"}", WxAppAuthenticationDTO.class);
+//
+////        WxAppAuthenticationDTO dto = new ObjectMapper().readValue(json, WxAppAuthenticationDTO.class);
 ////        System.out.println(dto.getCode());
 //
-//        WxUserService wxUserService = new WxUserServiceImpl();
-//        wxUserService.initForApp("xxxx");
+//        RespUserInfo respUserInfo = JsonUtil.jsonToPojo(json, RespUserInfo.class);
+//        System.out.println(respUserInfo.getOpenId());
+//
+////        WxUserService wxUserService = new WxUserServiceImpl();
+////        wxUserService.initForApp("xxxx");
 //    }
 }

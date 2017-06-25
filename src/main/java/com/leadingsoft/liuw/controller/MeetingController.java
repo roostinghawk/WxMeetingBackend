@@ -125,8 +125,12 @@ public class MeetingController {
         dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
         dto.setTitle(meeting.getTitle());
         dto.setContent(meeting.getContent());
+        String openId = SecurityUtils.getCurrentUserLogin();
         for(WxUser wxUser : meeting.getAttendees()){
-            dto.getAttendees().add(wxUser.getName());
+            dto.getAttendees().add(wxUser.getNickName());
+            if(openId.equals(wxUser.getOpenId())){
+                dto.setJoined(true);
+            }
         }
 
         return ResultDTO.success(dto);

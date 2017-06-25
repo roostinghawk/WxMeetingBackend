@@ -11,11 +11,11 @@ public interface WxUserService {
      * 初始化微信小程序用户
      *
      */
-    WxUser initForApp(final String openId);
+    WxUser initForApp(final String openId, String nickName);
 
     /**
      * 初始化微信小程序用户
      *
      */
-    WxUser initForApp(final String openId, final String unionId);
+    WxUser initForApp(final String openId, final String unionId, String nickName);
 }

@@ -38,6 +38,11 @@ public class WxUser {
     private String name;
 
     /**
+     * 微信昵称
+     */
+    private String nickName;
+
+    /**
      * 电话
      */
     private String mobile;

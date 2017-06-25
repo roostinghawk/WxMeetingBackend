@@ -27,4 +27,6 @@ public class MeetingDTO {
     private String content;
 
     private List<String> attendees = new ArrayList<String>();
+
+    private boolean joined = false;
 }
