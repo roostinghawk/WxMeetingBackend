@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liuw on 2017/5/31.
@@ -27,6 +29,35 @@ public class MeetingController {
     private MeetingRepository meetingRepository;
     @Autowired
     private WxUserRepository wxUserRepository;
+
+
+    /**
+     * 获取会议一览
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public List<MeetingDTO> list(){
+        String openId = SecurityUtils.getCurrentUserLogin();
+        WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
+        List<Meeting> meetings = this.meetingRepository.findByAttendeesContains(wxUser);
+
+        List<MeetingDTO> meetingDTOs = new ArrayList<>();
+        for(Meeting meeting: meetings) {
+            MeetingDTO dto = new MeetingDTO();
+            dto.setId(meeting.getId());
+            dto.setMeetingDate(DateTimeUtil.formatDate(meeting.getMeetingTime(), "yyyy-MM-dd"));
+            dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
+            dto.setTitle(meeting.getTitle());
+            dto.setContent(meeting.getContent());
+            for(WxUser user : meeting.getAttendees()){
+                dto.getAttendees().add(user.getNickName());
+            }
+            meetingDTOs.add(dto);
+        }
+
+        return meetingDTOs;
+
+    }
 
     /**
      * 新建会议
@@ -121,14 +152,16 @@ public class MeetingController {
             throw new CustomRuntimeException("404", "会议不存在");
         }
         MeetingDTO dto = new MeetingDTO();
+        dto.setId(meeting.getId());
         dto.setMeetingDate(DateTimeUtil.formatDate(meeting.getMeetingTime(), "yyyy-MM-dd"));
         dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
         dto.setTitle(meeting.getTitle());
         dto.setContent(meeting.getContent());
+        dto.setMeetingRoorm(meeting.getMeetingRoorm());
         String openId = SecurityUtils.getCurrentUserLogin();
         for(WxUser wxUser : meeting.getAttendees()){
             dto.getAttendees().add(wxUser.getNickName());
-            if(openId.equals(wxUser.getOpenId())){
+            if(openId.equals(wxUser.getOpenIdFromApp())){
                 dto.setJoined(true);
             }
         }
