@@ -7,6 +7,7 @@ import com.leadingsoft.liuw.model.WxUser;
 import com.leadingsoft.liuw.model.Meeting;
 import com.leadingsoft.liuw.repository.MeetingRepository;
 import com.leadingsoft.liuw.repository.WxUserRepository;
+import com.leadingsoft.liuw.service.MeetingService;
 import com.leadingsoft.liuw.utils.DateTimeUtil;
 import com.leadingsoft.liuw.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,8 @@ public class MeetingController {
     private MeetingRepository meetingRepository;
     @Autowired
     private WxUserRepository wxUserRepository;
+    @Autowired
+    private MeetingService meetingService;
 
 
     /**
@@ -89,6 +92,9 @@ public class MeetingController {
         meeting.getAttendees().add(wxUser);
 
         this.meetingRepository.save(meeting);
+
+        // 发送消息
+        this.meetingService.sendMessage(meeting.getId());
 
         return ResultDTO.success(meeting.getId());
     }
