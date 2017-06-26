@@ -1,6 +1,7 @@
 package com.leadingsoft.liuw.service;
 
 import com.leadingsoft.liuw.dto.wx.RespUserInfo;
+import com.leadingsoft.liuw.model.Meeting;
 
 /**
  * @author user
@@ -15,6 +16,8 @@ public interface WechatApiService {
             final String encryptedData,
             final String sessionKey,
             final String iv);
+
+    void sendTemplateMsg(final String jsonData);
 
 
 }

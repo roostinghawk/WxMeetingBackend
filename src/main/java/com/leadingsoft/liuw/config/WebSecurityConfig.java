@@ -65,6 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // @formatter:off
         http.authorizeRequests().antMatchers("/w/weather").permitAll()// 请求动态密码（POST）
+                .antMatchers("/w/tests/**").permitAll()
                 .anyRequest().fullyAuthenticated().and().httpBasic().disable()
                 .addFilterBefore( this.wxAppAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore( this.wxAppTokenFilter(), UsernamePasswordAuthenticationFilter.class)

@@ -51,4 +51,9 @@ public class WxUser {
      * 是否是小程序用户
      */
     private boolean appUser;
+
+    /**
+     * 用于消息通知
+     */
+    private String formId;
 }

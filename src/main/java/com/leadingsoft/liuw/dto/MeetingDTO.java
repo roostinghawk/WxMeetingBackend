@@ -29,4 +29,6 @@ public class MeetingDTO {
     private List<String> attendees = new ArrayList<String>();
 
     private boolean joined = false;
+
+    private String formId;
 }

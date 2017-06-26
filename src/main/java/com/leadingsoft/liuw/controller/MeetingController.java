@@ -82,6 +82,9 @@ public class MeetingController {
         if(wxUser == null) {
             log.error("创建会议者不存在：" + openId);
             throw new CustomRuntimeException("404", "创建会议者不存在");
+        }else {
+            // TODO：现在用的是mongo，所以如此存储，如果是关系型数据库，是不行的
+            wxUser.setFormId(dto.getFormId());
         }
         meeting.getAttendees().add(wxUser);
 
@@ -123,7 +126,7 @@ public class MeetingController {
      * @return
      */
     @RequestMapping(value = "/{id}/join", method = RequestMethod.PUT)
-    public ResultDTO<String> join(@PathVariable final String id) {
+    public ResultDTO<String> join(@PathVariable final String id, @RequestParam final String formId) {
         final Meeting meeting = this.meetingRepository.findOne(id);
         if(meeting == null) {
             throw new CustomRuntimeException("404", "会议不存在");
@@ -132,6 +135,9 @@ public class MeetingController {
         final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
         if(wxUser == null) {
             log.error("参加会议者不存在：" + openId);
+        } else {
+            // TODO：现在用的是mongo，所以如此存储，如果是关系型数据库，是不行的
+            wxUser.setFormId(formId);
         }
         meeting.getAttendees().add(wxUser);
 

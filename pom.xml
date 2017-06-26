@@ -90,6 +90,12 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
 
+        <!-- TODO: quartz   -->
+        <!--<dependency>-->
+            <!--<groupId>com.leadingsoft.bizfuse</groupId>-->
+            <!--<artifactId>bizfuse-quartz</artifactId>-->
+        <!--</dependency>-->
+
         <!--<dependency>-->
             <!--<groupId>org.mongodb</groupId>-->
             <!--<artifactId>mongo-java-driver</artifactId>-->
