@@ -20,7 +20,7 @@ public class MeetingDTO {
 
     private String meetingTime;
 
-    private String meetingRoorm;
+    private String meetingRoom;
 
     private String title;
 

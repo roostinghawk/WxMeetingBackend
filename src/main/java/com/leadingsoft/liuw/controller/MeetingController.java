@@ -75,7 +75,7 @@ public class MeetingController {
         }
         meeting.setTitle(dto.getTitle());
         meeting.setContent(dto.getContent());
-        meeting.setMeetingRoorm(dto.getMeetingRoorm());
+        meeting.setMeetingRoom(dto.getMeetingRoom());
         // 创建者默认参加会议
         String openId = SecurityUtils.getCurrentUserLogin();
         final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
@@ -109,7 +109,7 @@ public class MeetingController {
         }
         meeting.setTitle(dto.getTitle());
         meeting.setContent(dto.getContent());
-        meeting.setMeetingRoorm(dto.getMeetingTime());
+        meeting.setMeetingRoom(dto.getMeetingTime());
 
         this.meetingRepository.save(meeting);
 
@@ -119,12 +119,12 @@ public class MeetingController {
 
     /**
      * 加入会议
-     * @param dto
+     * @param id
      * @return
      */
-    @RequestMapping(value = "/join", method = RequestMethod.PUT)
-    public ResultDTO<String> join(@RequestBody final MeetingDTO dto) {
-        final Meeting meeting = this.meetingRepository.findOne(dto.getId());
+    @RequestMapping(value = "/{id}/join", method = RequestMethod.PUT)
+    public ResultDTO<String> join(@PathVariable final String id) {
+        final Meeting meeting = this.meetingRepository.findOne(id);
         if(meeting == null) {
             throw new CustomRuntimeException("404", "会议不存在");
         }
@@ -157,7 +157,7 @@ public class MeetingController {
         dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
         dto.setTitle(meeting.getTitle());
         dto.setContent(meeting.getContent());
-        dto.setMeetingRoorm(meeting.getMeetingRoorm());
+        dto.setMeetingRoom(meeting.getMeetingRoom());
         String openId = SecurityUtils.getCurrentUserLogin();
         for(WxUser wxUser : meeting.getAttendees()){
             dto.getAttendees().add(wxUser.getNickName());

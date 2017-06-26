@@ -64,8 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(final HttpSecurity http) throws Exception {
 
         // @formatter:off
-        http.authorizeRequests().antMatchers("/m/password").permitAll()// 请求动态密码（POST）
-                .antMatchers("/test/**").permitAll() // 允许下载图片,但禁止无权限时的上传
+        http.authorizeRequests().antMatchers("/w/weather").permitAll()// 请求动态密码（POST）
                 .anyRequest().fullyAuthenticated().and().httpBasic().disable()
                 .addFilterBefore( this.wxAppAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore( this.wxAppTokenFilter(), UsernamePasswordAuthenticationFilter.class)

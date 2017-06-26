@@ -27,7 +27,7 @@ public class Meeting {
     /**
      * 会议室
      */
-    private String meetingRoorm;
+    private String meetingRoom;
 
     /**
      * 标题
