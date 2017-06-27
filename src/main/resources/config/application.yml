@@ -66,5 +66,5 @@ local.storage:
 wxApp:
   config:
     appId: wxf9a70d30a6944069
-    secret: b735fc511979462ef3e2dd7f8e80ab58
+    secret: 6e194e52ce8608e8296a1874e92e6d9f
     templateId: sUK9yrQxPnXEmz_34S8UczW8x_izXGbMuRsQDa2xBaw
