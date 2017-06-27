@@ -70,6 +70,10 @@ public class WechatApiServiceImpl implements WechatApiService {
     public String verifyUrl(final String signature, final String timestamp, final String nonce, final String echostr) {
         String result = "";
 
+        log.info("token:" + this.token);
+        log.info("解析signature:" + signature);
+        log.info("timestamp: " + timestamp);
+        log.info("echostr: " + echostr);
         final String mSignature = WechatUtil.generateSignature(this.token, timestamp, nonce);
 
         if (signature.equals(mSignature)) {

@@ -32,7 +32,7 @@ public class MessageController {
                                @RequestParam final String nonce,
                                @RequestParam final String echostr) {
         if(log.isDebugEnabled()) {
-            log.debug(String.format(
+            log.info(String.format(
                     "微信接入验证\n,signature=%s, timestamp=%s, nonce=%s, echostr=%s",
                     signature, timestamp, nonce, echostr));
         }
