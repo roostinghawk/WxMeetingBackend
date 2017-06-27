@@ -7,6 +7,7 @@ import com.leadingsoft.liuw.service.WechatApiService;
 import com.leadingsoft.liuw.utils.AESUtil;
 import com.leadingsoft.liuw.utils.DateTimeUtil;
 import com.leadingsoft.liuw.utils.JsonUtil;
+import com.leadingsoft.liuw.utils.WechatUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class WechatApiServiceImpl implements WechatApiService {
     private String appIdForApp;
     @Value("${wxApp.config.secret}")
     private String appSecretForApp;
+    @Value("${wxApp.config.token}")
+    private String token;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -61,6 +64,32 @@ public class WechatApiServiceImpl implements WechatApiService {
                 RespCommon.class);
 
         log.info(String.format("发送模板消息响应：%s\n", resp.getBody()));
+    }
+
+    @Override
+    public String verifyUrl(final String signature, final String timestamp, final String nonce, final String echostr) {
+        String result = "";
+
+        final String mSignature = WechatUtil.generateSignature(this.token, timestamp, nonce);
+
+        if (signature.equals(mSignature)) {
+            result = echostr;
+        }
+
+        return result;
+    }
+
+    @Override
+    public boolean checkSignature(final String signature, final String timestamp, final String nonce) {
+        boolean result = false;
+
+        final String mSignature = WechatUtil.generateSignature(this.token, timestamp, nonce);
+
+        if (signature.equals(mSignature)) {
+            result = true;
+        }
+
+        return result;
     }
 
 

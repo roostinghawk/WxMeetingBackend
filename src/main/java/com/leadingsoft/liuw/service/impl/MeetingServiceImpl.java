@@ -34,9 +34,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void sendMessage(String meetingId) {
         final Meeting meeting = this.meetingRepository.findOne(meetingId);
-
-        log.error(String.format("会议[%s]不存在", meetingId));
         if(meeting == null) {
+            log.error(String.format("会议[%s]不存在", meetingId));
             throw new CustomRuntimeException("404", "会议不存在");
         }
 

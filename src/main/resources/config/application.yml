@@ -67,4 +67,7 @@ wxApp:
   config:
     appId: wxf9a70d30a6944069
     secret: 6e194e52ce8608e8296a1874e92e6d9f
+    #消息推送用
+    token: liuwei
+
     templateId: sUK9yrQxPnXEmz_34S8UczW8x_izXGbMuRsQDa2xBaw
