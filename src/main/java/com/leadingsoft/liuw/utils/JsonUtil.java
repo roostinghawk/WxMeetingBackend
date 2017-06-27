@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leadingsoft.liuw.exception.CustomRuntimeException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * Created by liuw on 2017/6/21.
  */
+@Slf4j
 public class JsonUtil {
 
     private static ObjectMapper mapper = new ObjectMapper();
@@ -31,6 +33,7 @@ public class JsonUtil {
                 String e = getMapper().writeValueAsString(pojo);
                 return e;
             } catch (IOException var2) {
+                log.error("pojoToJson Error", var2);
                 throw new CustomRuntimeException("Failed to convert Object2JSONString. ", new Object[]{var2});
             }
         }
