@@ -16,7 +16,7 @@ public interface MeetingRepository extends MongoRepository<Meeting, String> {
 
     Meeting findOne(String id);
 
-    List<Meeting> findByAttendeesContainsOrderByMeetingTimeDesc(WxUser wxUser);
+    List<Meeting> findByAttendeesContainsOrderByMeetingTimeDesc(String openId);
 
-    List<Meeting> findByAttendeesContainsAndMeetingTimeBetweenOrderByMeetingTimeDesc(WxUser wxUser, Date startTime, Date endTime);
+    List<Meeting> findByAttendeesContainsAndMeetingTimeBetweenOrderByMeetingTimeDesc(String openId, Date startTime, Date endTime);
 }

@@ -3,6 +3,7 @@ package com.leadingsoft.liuw.controller;
 import com.leadingsoft.liuw.dto.MeetingDTO;
 import com.leadingsoft.liuw.base.ResultDTO;
 import com.leadingsoft.liuw.exception.CustomRuntimeException;
+import com.leadingsoft.liuw.model.AttendeeInfo;
 import com.leadingsoft.liuw.model.WxUser;
 import com.leadingsoft.liuw.model.Meeting;
 import com.leadingsoft.liuw.repository.MeetingRepository;
@@ -42,8 +43,7 @@ public class MeetingController {
     @RequestMapping(method = RequestMethod.GET)
     public List<MeetingDTO> list(){
         String openId = SecurityUtils.getCurrentUserLogin();
-        WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
-        List<Meeting> meetings = this.meetingRepository.findByAttendeesContainsOrderByMeetingTimeDesc(wxUser);
+        List<Meeting> meetings = this.meetingRepository.findByAttendeesContainsOrderByMeetingTimeDesc(openId);
 
         List<MeetingDTO> meetingDTOs = new ArrayList<>();
         for(Meeting meeting: meetings) {
@@ -53,9 +53,13 @@ public class MeetingController {
             dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
             dto.setTitle(meeting.getTitle());
             dto.setContent(meeting.getContent());
-            for(WxUser user : meeting.getAttendees()){
-                dto.getAttendees().add(user.getNickName());
-            }
+            dto.setMeetingRoom(meeting.getMeetingRoom());
+//            for(AttendeeInfo attendeeInfo : meeting.getAttendees()){
+//                final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(attendeeInfo.getOpenId());
+//                if(wxUser != null) {
+//                    dto.getAttendees().add(wxUser.getNickName());
+//                }
+//            }
             meetingDTOs.add(dto);
         }
 
@@ -70,10 +74,9 @@ public class MeetingController {
     @RequestMapping(value= "/today", method = RequestMethod.GET)
     public List<MeetingDTO> todayList(){
         String openId = SecurityUtils.getCurrentUserLogin();
-        WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
         Date today = new Date();
         List<Meeting> meetings = this.meetingRepository.findByAttendeesContainsAndMeetingTimeBetweenOrderByMeetingTimeDesc(
-                wxUser, DateTimeUtil.toZeroTime(today), DateTimeUtil.toNextDayZeroTime(today));
+                openId, DateTimeUtil.toZeroTime(today), DateTimeUtil.toNextDayZeroTime(today));
 
         List<MeetingDTO> meetingDTOs = new ArrayList<>();
         for(Meeting meeting: meetings) {
@@ -83,9 +86,6 @@ public class MeetingController {
             dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
             dto.setTitle(meeting.getTitle());
             dto.setContent(meeting.getContent());
-            for(WxUser user : meeting.getAttendees()){
-                dto.getAttendees().add(user.getNickName());
-            }
             meetingDTOs.add(dto);
         }
 
@@ -112,15 +112,11 @@ public class MeetingController {
         meeting.setMeetingRoom(dto.getMeetingRoom());
         // 创建者默认参加会议
         String openId = SecurityUtils.getCurrentUserLogin();
-        final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
-        if(wxUser == null) {
-            log.error("创建会议者不存在：" + openId);
-            throw new CustomRuntimeException("404", "创建会议者不存在");
-        }else {
-            // TODO：现在用的是mongo，所以如此存储，如果是关系型数据库，是不行的
-            wxUser.setFormId(dto.getFormId());
-        }
-        meeting.getAttendees().add(wxUser);
+
+        final AttendeeInfo attendeeInfo = new AttendeeInfo();
+        attendeeInfo.setOpenId(openId);
+        attendeeInfo.setFormId(dto.getFormId());
+        meeting.getAttendees().add(attendeeInfo);
 
         this.meetingRepository.save(meeting);
 
@@ -176,7 +172,21 @@ public class MeetingController {
             // TODO：现在用的是mongo，所以如此存储，如果是关系型数据库，是不行的
             wxUser.setFormId(formId);
         }
-        meeting.getAttendees().add(wxUser);
+
+        final AttendeeInfo attendeeInfo = new AttendeeInfo();
+        attendeeInfo.setOpenId(openId);
+        attendeeInfo.setFormId(formId);
+
+        boolean exist = false;
+        for(AttendeeInfo info: meeting.getAttendees()){
+            if(info.getOpenId().equals(openId)) {
+                exist = true;
+            }
+        }
+
+        if(!exist) {
+            meeting.getAttendees().add(attendeeInfo);
+        }
 
         this.meetingRepository.save(meeting);
 
@@ -202,10 +212,13 @@ public class MeetingController {
         dto.setContent(meeting.getContent());
         dto.setMeetingRoom(meeting.getMeetingRoom());
         String openId = SecurityUtils.getCurrentUserLogin();
-        for(WxUser wxUser : meeting.getAttendees()){
-            dto.getAttendees().add(wxUser.getNickName());
-            if(openId.equals(wxUser.getOpenIdFromApp())){
-                dto.setJoined(true);
+        for(AttendeeInfo attendeeInfo : meeting.getAttendees()){
+            final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(attendeeInfo.getOpenId());
+            if(wxUser != null) {
+                dto.getAttendees().add(wxUser.getNickName());
+                if (openId.equals(wxUser.getOpenIdFromApp())) {
+                    dto.setJoined(true);
+                }
             }
         }
 

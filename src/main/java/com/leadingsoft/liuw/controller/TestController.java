@@ -2,6 +2,7 @@ package com.leadingsoft.liuw.controller;
 
 import com.leadingsoft.liuw.dto.wx.*;
 import com.leadingsoft.liuw.exception.CustomRuntimeException;
+import com.leadingsoft.liuw.model.AttendeeInfo;
 import com.leadingsoft.liuw.model.Meeting;
 import com.leadingsoft.liuw.model.WxUser;
 import com.leadingsoft.liuw.repository.MeetingRepository;
@@ -42,9 +43,9 @@ public class TestController {
         }
 
         final MeetingMessage meetingMessage = this.initMeetingMessage(meeting);
-        for(WxUser wxUser: meeting.getAttendees()) {
-            meetingMessage.setTouser(wxUser.getOpenIdFromApp());
-            meetingMessage.setForm_id(wxUser.getFormId());
+        for(AttendeeInfo attendeeInfo: meeting.getAttendees()) {
+            meetingMessage.setTouser(attendeeInfo.getOpenId());
+            meetingMessage.setForm_id(attendeeInfo.getFormId());
             meetingMessage.setPage("detail?id=" + meeting.getId());
 
             final String json = JsonUtil.pojoToJson(meetingMessage);

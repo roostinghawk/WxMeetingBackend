@@ -52,6 +52,6 @@ public class Meeting {
     /**
      * 参会者
      */
-    private List<WxUser> attendees = new ArrayList<>();
+    private List<AttendeeInfo> attendees = new ArrayList<>();
 
 }
