@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +43,37 @@ public class MeetingController {
     public List<MeetingDTO> list(){
         String openId = SecurityUtils.getCurrentUserLogin();
         WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
-        List<Meeting> meetings = this.meetingRepository.findByAttendeesContains(wxUser);
+        List<Meeting> meetings = this.meetingRepository.findByAttendeesContainsOrderByMeetingTimeDesc(wxUser);
+
+        List<MeetingDTO> meetingDTOs = new ArrayList<>();
+        for(Meeting meeting: meetings) {
+            MeetingDTO dto = new MeetingDTO();
+            dto.setId(meeting.getId());
+            dto.setMeetingDate(DateTimeUtil.formatDate(meeting.getMeetingTime(), "yyyy-MM-dd"));
+            dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
+            dto.setTitle(meeting.getTitle());
+            dto.setContent(meeting.getContent());
+            for(WxUser user : meeting.getAttendees()){
+                dto.getAttendees().add(user.getNickName());
+            }
+            meetingDTOs.add(dto);
+        }
+
+        return meetingDTOs;
+
+    }
+
+    /**
+     * 获取今天会议一览
+     * @return
+     */
+    @RequestMapping(value= "/today", method = RequestMethod.GET)
+    public List<MeetingDTO> todayList(){
+        String openId = SecurityUtils.getCurrentUserLogin();
+        WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
+        Date today = new Date();
+        List<Meeting> meetings = this.meetingRepository.findByAttendeesContainsAndMeetingTimeBetweenOrderByMeetingTimeDesc(
+                wxUser, DateTimeUtil.toZeroTime(today), DateTimeUtil.toNextDayZeroTime(today));
 
         List<MeetingDTO> meetingDTOs = new ArrayList<>();
         for(Meeting meeting: meetings) {

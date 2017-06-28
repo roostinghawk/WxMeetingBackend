@@ -4,6 +4,7 @@ import com.leadingsoft.liuw.model.Meeting;
 import com.leadingsoft.liuw.model.WxUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,5 +16,7 @@ public interface MeetingRepository extends MongoRepository<Meeting, String> {
 
     Meeting findOne(String id);
 
-    List<Meeting> findByAttendeesContains(WxUser wxUser);
+    List<Meeting> findByAttendeesContainsOrderByMeetingTimeDesc(WxUser wxUser);
+
+    List<Meeting> findByAttendeesContainsAndMeetingTimeBetweenOrderByMeetingTimeDesc(WxUser wxUser, Date startTime, Date endTime);
 }

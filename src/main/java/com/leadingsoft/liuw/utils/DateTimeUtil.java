@@ -26,6 +26,23 @@ public class DateTimeUtil {
     }
 
     /**
+     * 转换为第二天日期的凌晨00:00:00
+     * @param date
+     * @return
+     */
+    public final static Date toNextDayZeroTime(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTime();
+    }
+
+    /**
      * 转换为当月1日的凌晨00:00:00
      * @param date
      * @return
