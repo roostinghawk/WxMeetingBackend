@@ -52,6 +52,6 @@ public class Meeting {
     /**
      * 参会者
      */
-    private List<AttendeeInfo> attendees = new ArrayList<>();
+    private List<String> attendees = new ArrayList<>();
 
 }

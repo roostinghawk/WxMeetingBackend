@@ -6,6 +6,7 @@ import com.leadingsoft.liuw.exception.CustomRuntimeException;
 import com.leadingsoft.liuw.model.AttendeeInfo;
 import com.leadingsoft.liuw.model.WxUser;
 import com.leadingsoft.liuw.model.Meeting;
+import com.leadingsoft.liuw.repository.AttendeeInfoRepository;
 import com.leadingsoft.liuw.repository.MeetingRepository;
 import com.leadingsoft.liuw.repository.WxUserRepository;
 import com.leadingsoft.liuw.service.MeetingService;
@@ -33,6 +34,8 @@ public class MeetingController {
     @Autowired
     private WxUserRepository wxUserRepository;
     @Autowired
+    private AttendeeInfoRepository attendeeInfoRepository;
+    @Autowired
     private MeetingService meetingService;
 
 
@@ -54,12 +57,6 @@ public class MeetingController {
             dto.setTitle(meeting.getTitle());
             dto.setContent(meeting.getContent());
             dto.setMeetingRoom(meeting.getMeetingRoom());
-//            for(AttendeeInfo attendeeInfo : meeting.getAttendees()){
-//                final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(attendeeInfo.getOpenId());
-//                if(wxUser != null) {
-//                    dto.getAttendees().add(wxUser.getNickName());
-//                }
-//            }
             meetingDTOs.add(dto);
         }
 
@@ -112,16 +109,8 @@ public class MeetingController {
         meeting.setMeetingRoom(dto.getMeetingRoom());
         // 创建者默认参加会议
         String openId = SecurityUtils.getCurrentUserLogin();
-
-        final AttendeeInfo attendeeInfo = new AttendeeInfo();
-        attendeeInfo.setOpenId(openId);
-        attendeeInfo.setFormId(dto.getFormId());
-        meeting.getAttendees().add(attendeeInfo);
-
-        this.meetingRepository.save(meeting);
-
-        // 发送消息
-        this.meetingService.sendMessage(meeting.getId());
+        meeting.getAttendees().add(openId);
+        this.meetingService.create(meeting, dto.getFormId());
 
         return ResultDTO.success(meeting.getId());
     }
@@ -159,38 +148,14 @@ public class MeetingController {
      * @return
      */
     @RequestMapping(value = "/{id}/join", method = RequestMethod.PUT)
-    public ResultDTO<String> join(@PathVariable final String id, @RequestParam final String formId) {
+    public ResultDTO<Void> join(@PathVariable final String id, @RequestParam final String formId) {
         final Meeting meeting = this.meetingRepository.findOne(id);
         if(meeting == null) {
             throw new CustomRuntimeException("404", "会议不存在");
         }
         String openId = SecurityUtils.getCurrentUserLogin();
-        final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
-        if(wxUser == null) {
-            log.error("参加会议者不存在：" + openId);
-        } else {
-            // TODO：现在用的是mongo，所以如此存储，如果是关系型数据库，是不行的
-            wxUser.setFormId(formId);
-        }
-
-        final AttendeeInfo attendeeInfo = new AttendeeInfo();
-        attendeeInfo.setOpenId(openId);
-        attendeeInfo.setFormId(formId);
-
-        boolean exist = false;
-        for(AttendeeInfo info: meeting.getAttendees()){
-            if(info.getOpenId().equals(openId)) {
-                exist = true;
-            }
-        }
-
-        if(!exist) {
-            meeting.getAttendees().add(attendeeInfo);
-        }
-
-        this.meetingRepository.save(meeting);
-
-        return ResultDTO.success(meeting.getId());
+        this.meetingService.join(meeting, openId, formId);
+        return ResultDTO.success();
     }
 
     /**
@@ -212,8 +177,8 @@ public class MeetingController {
         dto.setContent(meeting.getContent());
         dto.setMeetingRoom(meeting.getMeetingRoom());
         String openId = SecurityUtils.getCurrentUserLogin();
-        for(AttendeeInfo attendeeInfo : meeting.getAttendees()){
-            final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(attendeeInfo.getOpenId());
+        for(String attendeeOpenId : meeting.getAttendees()){
+            final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(attendeeOpenId);
             if(wxUser != null) {
                 dto.getAttendees().add(wxUser.getNickName());
                 if (openId.equals(wxUser.getOpenIdFromApp())) {

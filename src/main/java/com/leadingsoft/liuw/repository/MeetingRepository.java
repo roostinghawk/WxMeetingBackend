@@ -1,5 +1,6 @@
 package com.leadingsoft.liuw.repository;
 
+import com.leadingsoft.liuw.model.AttendeeInfo;
 import com.leadingsoft.liuw.model.Meeting;
 import com.leadingsoft.liuw.model.WxUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
