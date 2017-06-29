@@ -26,50 +26,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/w/tests")
 public class TestController {
 
-    @Value("${wxApp.config.templateId}")
-    private String templateId;
-
-    @Autowired
-    private WechatApiService wechatApiService;
-    @Autowired
-    private MeetingRepository meetingRepository;
-
-    @RequestMapping("/{meetingId}")
-    public void test(@PathVariable final String meetingId){
-        final Meeting meeting = this.meetingRepository.findOne(meetingId);
-
-        if(meeting == null) {
-            throw new CustomRuntimeException("404", "会议不存在");
-        }
-
-        final MeetingMessage meetingMessage = this.initMeetingMessage(meeting);
-        for(AttendeeInfo attendeeInfo: meeting.getAttendees()) {
-            meetingMessage.setTouser(attendeeInfo.getOpenId());
-            meetingMessage.setForm_id(attendeeInfo.getFormId());
-            meetingMessage.setPage("detail?id=" + meeting.getId());
-
-            final String json = JsonUtil.pojoToJson(meetingMessage);
-            log.info(json);
-            this.wechatApiService.sendTemplateMsg(json);
-        }
-
-
-    }
-
-    private MeetingMessage initMeetingMessage(final Meeting meeting) {
-        final MeetingMessage meetingMessage = new MeetingMessage();
-        meetingMessage.setTemplate_id(this.templateId);
-
-        final MeetingMessageData data = new MeetingMessageData();
-        data.setKeyword1(new MeetingMessageDataDetail("#173177", meeting.getTitle()));
-        data.setKeyword2(new MeetingMessageDataDetail("#173177", DateTimeUtil.formatDate(
-                meeting.getMeetingTime(), "yyyy-MM-dd HH:mm")));
-        data.setKeyword3(new MeetingMessageDataDetail("#173177", meeting.getMeetingRoom()));
-        data.setKeyword4(new MeetingMessageDataDetail("#173177", meeting.getTitle()));
-
-        meetingMessage.setData(data);
-        meetingMessage.setEmphasis_keyword("keyword1.DATA");
-
-        return meetingMessage;
-    }
+//    @Value("${wxApp.config.templateId}")
+//    private String templateId;
+//
+//    @Autowired
+//    private WechatApiService wechatApiService;
+//    @Autowired
+//    private MeetingRepository meetingRepository;
+//
+//    @RequestMapping("/{meetingId}")
+//    public void test(@PathVariable final String meetingId){
+//        final Meeting meeting = this.meetingRepository.findOne(meetingId);
+//
+//        if(meeting == null) {
+//            throw new CustomRuntimeException("404", "会议不存在");
+//        }
+//
+//        final MeetingMessage meetingMessage = this.initMeetingMessage(meeting);
+//        for(AttendeeInfo attendeeInfo: meeting.getAttendees()) {
+//            meetingMessage.setTouser(attendeeInfo.getOpenId());
+//            meetingMessage.setForm_id(attendeeInfo.getFormId());
+//            meetingMessage.setPage("detail?id=" + meeting.getId());
+//
+//            final String json = JsonUtil.pojoToJson(meetingMessage);
+//            log.info(json);
+//            this.wechatApiService.sendTemplateMsg(json);
+//        }
+//
+//
+//    }
+//
+//    private MeetingMessage initMeetingMessage(final Meeting meeting) {
+//        final MeetingMessage meetingMessage = new MeetingMessage();
+//        meetingMessage.setTemplate_id(this.templateId);
+//
+//        final MeetingMessageData data = new MeetingMessageData();
+//        data.setKeyword1(new MeetingMessageDataDetail("#173177", meeting.getTitle()));
+//        data.setKeyword2(new MeetingMessageDataDetail("#173177", DateTimeUtil.formatDate(
+//                meeting.getMeetingTime(), "yyyy-MM-dd HH:mm")));
+//        data.setKeyword3(new MeetingMessageDataDetail("#173177", meeting.getMeetingRoom()));
+//        data.setKeyword4(new MeetingMessageDataDetail("#173177", meeting.getTitle()));
+//
+//        meetingMessage.setData(data);
+//        meetingMessage.setEmphasis_keyword("keyword1.DATA");
+//
+//        return meetingMessage;
+//    }
 }
