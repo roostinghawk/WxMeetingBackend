@@ -7,7 +7,7 @@ import com.leadingsoft.liuw.model.Meeting;
  */
 public interface MeetingService {
 
-    void sendMessage(final String meetingId);
+    void sendMessage(final Meeting meeting);
 
     Meeting create(final Meeting meeting, String formId);
 

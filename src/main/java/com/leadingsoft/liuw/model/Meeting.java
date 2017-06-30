@@ -54,4 +54,9 @@ public class Meeting {
      */
     private List<String> attendees = new ArrayList<>();
 
+    /**
+     * 是否已发送过提醒邮件
+     */
+    private boolean notified = false;
+
 }

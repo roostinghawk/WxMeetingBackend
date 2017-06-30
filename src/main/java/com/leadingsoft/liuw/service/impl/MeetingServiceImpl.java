@@ -37,26 +37,36 @@ public class MeetingServiceImpl implements MeetingService {
     private AttendeeInfoRepository attendeeInfoRepository;
 
     @Override
-    public void sendMessage(String meetingId) {
-        final Meeting meeting = this.meetingRepository.findOne(meetingId);
-        if(meeting == null) {
-            log.error(String.format("会议[%s]不存在", meetingId));
-            throw new CustomRuntimeException("404", "会议不存在");
-        }
+    public void sendMessage(Meeting meeting) {
+        try {
+            log.info(String.format("发送会议提醒开始[%s]", meeting.getId()));
+            final MeetingMessage meetingMessage = this.initMeetingMessage(meeting);
+            for (String openId : meeting.getAttendees()) {
 
-        final MeetingMessage meetingMessage = this.initMeetingMessage(meeting);
-        for(String openId: meeting.getAttendees()) {
+                final AttendeeInfo attendeeInfo = this.attendeeInfoRepository.findOneByOpenIdAndMeetingId(openId, meeting.getId());
+                if (attendeeInfo != null) {
+                    meetingMessage.setTouser(openId);
+                    meetingMessage.setForm_id(attendeeInfo.getFormId());
+                    meetingMessage.setPage("detail?id=" + meeting.getId());
 
-            final AttendeeInfo attendeeInfo = this.attendeeInfoRepository.findOneByOpenIdAndMeetingId(openId, meetingId);
-            if(attendeeInfo != null) {
-                meetingMessage.setTouser(openId);
-                meetingMessage.setForm_id(attendeeInfo.getFormId());
-                meetingMessage.setPage("detail?id=" + meeting.getId());
+                    final String json = JsonUtil.pojoToJson(meetingMessage);
+                    if (log.isDebugEnabled()) {
+                        log.info(json);
+                    }
 
-                final String json = JsonUtil.pojoToJson(meetingMessage);
-                log.info(json);
-                this.wechatApiService.sendTemplateMsg(json);
+                    log.info(String.format("发送会议[%s]提醒给用户[%s]开始", meeting.getId(), openId));
+                    this.wechatApiService.sendTemplateMsg(json);
+                    log.info(String.format("发送会议[%s]提醒给用户[%s]完成", meeting.getId(), openId));
+                }
             }
+
+            // 标记为已通知
+            meeting.setNotified(true);
+            this.meetingRepository.save(meeting);
+
+            log.info(String.format("发送会议提醒完成[%s]", meeting.getId()));
+        } catch (Exception ex) {
+            log.error("发送提醒异常", ex);
         }
 
     }
@@ -71,7 +81,7 @@ public class MeetingServiceImpl implements MeetingService {
         this.attendeeInfoRepository.save(attendeeInfo);
 
         // TODO: 为了测试：发送消息
-        this.sendMessage(meeting.getId());
+        this.sendMessage(meeting);
 
         return meeting;
     }
