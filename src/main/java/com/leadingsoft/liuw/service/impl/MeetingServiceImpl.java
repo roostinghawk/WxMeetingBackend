@@ -47,7 +47,7 @@ public class MeetingServiceImpl implements MeetingService {
                 if (attendeeInfo != null) {
                     meetingMessage.setTouser(openId);
                     meetingMessage.setForm_id(attendeeInfo.getFormId());
-                    meetingMessage.setPage("detail?id=" + meeting.getId());
+                    meetingMessage.setPage("pages/detail/detail?id=" + meeting.getId());
 
                     final String json = JsonUtil.pojoToJson(meetingMessage);
                     if (log.isDebugEnabled()) {
