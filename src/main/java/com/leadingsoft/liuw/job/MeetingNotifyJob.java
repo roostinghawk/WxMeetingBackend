@@ -40,7 +40,7 @@ public class MeetingNotifyJob {
 
         final Date compareDate = DateTimeUtil.addMinutes(new Date(), 10);
         final List<Meeting> meetings = this.meetingRepository.findByMeetingTimeBeforeAndNotifiedFalse(compareDate);
-
+        MeetingNotifyJob.log.info("待通知会议数量：" + meetings.size());
         for (Meeting meeting: meetings) {
             this.meetingService.sendMessage(meeting);
         }

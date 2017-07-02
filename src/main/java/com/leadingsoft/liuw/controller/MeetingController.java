@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by liuw on 2017/5/31.
@@ -99,7 +100,8 @@ public class MeetingController {
     public ResultDTO<String> create(@RequestBody final MeetingDTO dto) {
         final Meeting meeting = new Meeting();
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             meeting.setMeetingTime(dateFormat.parse(dto.getMeetingDate() + " " + dto.getMeetingTime()));
         } catch (Exception ex) {
             throw new CustomRuntimeException("404", "会议时间格式不正确");

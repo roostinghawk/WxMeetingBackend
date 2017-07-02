@@ -80,8 +80,8 @@ public class MeetingServiceImpl implements MeetingService {
         attendeeInfo.setMeetingId(meeting.getId());
         this.attendeeInfoRepository.save(attendeeInfo);
 
-        // TODO: 为了测试：发送消息
-        this.sendMessage(meeting);
+//        // TODO: 为了测试：发送消息
+//        this.sendMessage(meeting);
 
         return meeting;
     }
@@ -111,7 +111,8 @@ public class MeetingServiceImpl implements MeetingService {
         meetingMessage.setTemplate_id(this.templateId);
 
         final MeetingMessageData data = new MeetingMessageData();
-        data.setKeyword1(new MeetingMessageDataDetail("#173177", meeting.getTitle()));
+        // 会议主题：绿色
+        data.setKeyword1(new MeetingMessageDataDetail("#00ff00", meeting.getTitle()));
         data.setKeyword2(new MeetingMessageDataDetail("#173177", DateTimeUtil.formatDate(
                 meeting.getMeetingTime(), "yyyy-MM-dd HH:mm")));
         data.setKeyword3(new MeetingMessageDataDetail("#173177", meeting.getMeetingRoom()));
