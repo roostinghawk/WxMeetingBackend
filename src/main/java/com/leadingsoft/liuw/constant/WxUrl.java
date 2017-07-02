@@ -14,5 +14,5 @@ public class WxUrl {
             "https://api.weixin.qq.com/cgi-bin/token?grant_type=%s&appid=%s&secret=%s";
 
     public final static String URL_SEND_TEMPLATE_MSG =
-            "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=%S";
+            "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=%s";
 }
