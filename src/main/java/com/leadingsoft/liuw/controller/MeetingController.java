@@ -101,8 +101,8 @@ public class MeetingController {
         final Meeting meeting = new Meeting();
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-            meeting.setMeetingTime(dateFormat.parse(dto.getMeetingDate() + " " + dto.getMeetingTime()));
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            meeting.setMeetingTime(dateFormat.parse(dto.getMeetingDate() + "T" + dto.getMeetingTime()));
         } catch (Exception ex) {
             throw new CustomRuntimeException("404", "会议时间格式不正确");
         }
