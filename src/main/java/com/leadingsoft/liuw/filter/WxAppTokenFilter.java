@@ -59,7 +59,7 @@ public class WxAppTokenFilter extends GenericFilterBean {
 				this.log.error("异常", var7);
 
 				final HttpServletResponse response = ((HttpServletResponse)servletResponse);
-				final ResultDTO rs = ResultDTO.failure(new ResultError("401", var7.getMessage()));
+				final ResultDTO rs = ResultDTO.failure(new ResultError(var7.getMessage(), "401"));
 				response.setStatus(401);
 				response.setContentType("application/json;charset=UTF-8");
 				final PrintWriter writer = response.getWriter();
