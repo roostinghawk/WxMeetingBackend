@@ -120,7 +120,7 @@ public class MeetingServiceImpl implements MeetingService {
         data.setKeyword2(new MeetingMessageDataDetail("#173177", DateTimeUtil.formatDate(
                 meeting.getMeetingTime(), "yyyy-MM-dd HH:mm")));
         data.setKeyword3(new MeetingMessageDataDetail("#173177", meeting.getMeetingRoom()));
-        data.setKeyword4(new MeetingMessageDataDetail("#173177", this.wxUserService.getName(meeting.getCreatedBy())));
+        data.setKeyword4(new MeetingMessageDataDetail("#173177", this.wxUserService.getName(meeting.getCreatedBy()) + "..."));
 
         meetingMessage.setData(data);
         meetingMessage.setEmphasis_keyword("keyword1.DATA");
