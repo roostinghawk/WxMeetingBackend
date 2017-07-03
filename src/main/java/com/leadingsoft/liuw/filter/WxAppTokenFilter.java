@@ -56,25 +56,17 @@ public class WxAppTokenFilter extends GenericFilterBean {
 
 				filterChain.doFilter(servletRequest, servletResponse);
 			}
-			catch (CustomRuntimeException ex) {
-				//this.log.info("Security exception for user {} - {}", var7.getClaims().getSubject(), var7.getMessage());
-				this.log.error("业务异常", ex);
-
-				final HttpServletResponse response = ((HttpServletResponse)servletResponse);
-				final ResultDTO rs = ResultDTO.failure(new ResultError(ex.getMessage(), "401"));
-				response.setStatus(401);
-				response.setContentType("application/json;charset=UTF-8");
-				final PrintWriter writer = response.getWriter();
-				writer.write(JsonUtil.pojoToJson(rs));
-				writer.flush();// 51
-				writer.close();
-			}
 			catch (Exception var7) {
 				//this.log.info("Security exception for user {} - {}", var7.getClaims().getSubject(), var7.getMessage());
 				this.log.error("异常", var7);
 
+				String errMsg = "系统异常";
+				if(var7.getCause() instanceof CustomRuntimeException) {
+					errMsg = var7.getCause().getMessage();
+				}
+
 				final HttpServletResponse response = ((HttpServletResponse)servletResponse);
-				final ResultDTO rs = ResultDTO.failure(new ResultError("系统异常", "500"));
+				final ResultDTO rs = ResultDTO.failure(new ResultError(errMsg, "500"));
 				response.setStatus(401);
 				response.setContentType("application/json;charset=UTF-8");
 				final PrintWriter writer = response.getWriter();
