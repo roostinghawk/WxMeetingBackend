@@ -1,8 +1,11 @@
 package com.leadingsoft.liuw.filter;
 
 import com.leadingsoft.liuw.base.DefaultAuthenticationToken;
+import com.leadingsoft.liuw.base.ResultDTO;
+import com.leadingsoft.liuw.base.ResultError;
 import com.leadingsoft.liuw.model.WxAppToken;
 import com.leadingsoft.liuw.service.WxAppTokenRepository;
+import com.leadingsoft.liuw.utils.JsonUtil;
 import com.leadingsoft.liuw.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @Slf4j
 public class WxAppTokenFilter extends GenericFilterBean {
@@ -53,7 +57,15 @@ public class WxAppTokenFilter extends GenericFilterBean {
 			} catch (Exception var7) {
 				//this.log.info("Security exception for user {} - {}", var7.getClaims().getSubject(), var7.getMessage());
 				this.log.error("异常", var7);
-				((HttpServletResponse)servletResponse).setStatus(401);
+
+				final HttpServletResponse response = ((HttpServletResponse)servletResponse);
+				final ResultDTO rs = ResultDTO.failure(new ResultError("401", var7.getMessage()));
+				response.setStatus(401);
+				response.setContentType("application/json;charset=UTF-8");
+				final PrintWriter writer = response.getWriter();
+				writer.write(JsonUtil.pojoToJson(rs));
+				writer.flush();// 51
+				writer.close();
 			}
 		}
 
