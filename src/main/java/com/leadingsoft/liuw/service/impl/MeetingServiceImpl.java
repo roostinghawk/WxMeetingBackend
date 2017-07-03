@@ -6,10 +6,13 @@ import com.leadingsoft.liuw.dto.wx.MeetingMessageDataDetail;
 import com.leadingsoft.liuw.exception.CustomRuntimeException;
 import com.leadingsoft.liuw.model.AttendeeInfo;
 import com.leadingsoft.liuw.model.Meeting;
+import com.leadingsoft.liuw.model.WxUser;
 import com.leadingsoft.liuw.repository.AttendeeInfoRepository;
 import com.leadingsoft.liuw.repository.MeetingRepository;
+import com.leadingsoft.liuw.repository.WxUserRepository;
 import com.leadingsoft.liuw.service.MeetingService;
 import com.leadingsoft.liuw.service.WechatApiService;
+import com.leadingsoft.liuw.service.WxUserService;
 import com.leadingsoft.liuw.utils.DateTimeUtil;
 import com.leadingsoft.liuw.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,8 @@ public class MeetingServiceImpl implements MeetingService {
     private WechatApiService wechatApiService;
     @Autowired
     private MeetingRepository meetingRepository;
+    @Autowired
+    private WxUserService wxUserService;
     @Autowired
     private AttendeeInfoRepository attendeeInfoRepository;
 
@@ -89,7 +94,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void join(Meeting meeting, String openId, String formId) {
         // check是否已加入
-        boolean exist = false;
         for(String attendeeOpenId: meeting.getAttendees()){
             if(attendeeOpenId.equals(openId)) {
                 return;
@@ -116,7 +120,7 @@ public class MeetingServiceImpl implements MeetingService {
         data.setKeyword2(new MeetingMessageDataDetail("#173177", DateTimeUtil.formatDate(
                 meeting.getMeetingTime(), "yyyy-MM-dd HH:mm")));
         data.setKeyword3(new MeetingMessageDataDetail("#173177", meeting.getMeetingRoom()));
-        data.setKeyword4(new MeetingMessageDataDetail("#173177", meeting.getTitle()));
+        data.setKeyword4(new MeetingMessageDataDetail("#173177", this.wxUserService.getName(meeting.getCreatedBy())));
 
         meetingMessage.setData(data);
         meetingMessage.setEmphasis_keyword("keyword1.DATA");

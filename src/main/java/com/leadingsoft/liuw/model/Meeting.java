@@ -25,6 +25,11 @@ public class Meeting {
     private Date meetingTime;
 
     /**
+     * 会议结束时间
+     */
+    private Date endTime;
+
+    /**
      * 会议室
      */
     private String meetingRoom;
@@ -42,7 +47,7 @@ public class Meeting {
     /**
      * 创建者
      */
-    private WxUser createdBy;
+    private String createdBy;
 
     /**
      * 创建时间

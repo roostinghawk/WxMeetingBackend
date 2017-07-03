@@ -34,4 +34,12 @@ public class WxUserServiceImpl implements WxUserService {
         wxUser.setNickName(nickName);
         return wxUserRepository.save(wxUser);
     }
+
+    @Override
+    public String getName(String openId) {
+        final WxUser creator = this.wxUserRepository.findOneByOpenIdFromApp(openId);
+        String name = creator.getName() != null ? creator.getName() : creator.getNickName();
+
+        return name;
+    }
 }

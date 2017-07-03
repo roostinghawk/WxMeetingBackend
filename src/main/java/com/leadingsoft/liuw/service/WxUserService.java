@@ -18,4 +18,6 @@ public interface WxUserService {
      *
      */
     WxUser initForApp(final String openId, final String unionId, String nickName);
+
+    String getName(final String openId);
 }

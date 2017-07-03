@@ -21,5 +21,15 @@ public interface MeetingRepository extends MongoRepository<Meeting, String> {
 
     List<Meeting> findByAttendeesContainsAndMeetingTimeBetweenOrderByMeetingTimeDesc(String openId, Date startTime, Date endTime);
 
+    List<Meeting> findByAttendeesContainsAndMeetingTimeAfterOrderByMeetingTimeDesc(String openId, Date startTime);
+
     List<Meeting> findByMeetingTimeBeforeAndNotifiedFalse(Date startTime);
+
+    /**
+     * 查找重复日期的会议个数
+     * @param endTime
+     * @param startTime
+     * @return
+     */
+    Long countByMeetingTimeLessThanEqualAndEndTimeGreaterThanEqualAndMeetingRoom(Date endTime, Date startTime, String meetingRoom);
 }

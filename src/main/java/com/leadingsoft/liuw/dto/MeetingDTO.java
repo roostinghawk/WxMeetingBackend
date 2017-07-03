@@ -20,13 +20,19 @@ public class MeetingDTO {
 
     private String meetingTime;
 
+    private String endTime;
+
     private String meetingRoom;
 
     private String title;
 
     private String content;
 
+    private String createdBy;
+
     private List<String> attendees = new ArrayList<String>();
+
+    private boolean creator = false;
 
     private boolean joined = false;
 
