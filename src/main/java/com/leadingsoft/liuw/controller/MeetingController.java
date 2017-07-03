@@ -59,6 +59,7 @@ public class MeetingController {
             dto.setTitle(meeting.getTitle());
             dto.setContent(meeting.getContent());
             dto.setMeetingRoom(meeting.getMeetingRoom());
+            dto.setCreatedBy(this.wxUserService.getName(meeting.getCreatedBy()));
             meetingDTOs.add(dto);
         }
 
@@ -86,6 +87,7 @@ public class MeetingController {
             dto.setTitle(meeting.getTitle());
             dto.setContent(meeting.getContent());
             dto.setMeetingRoom(meeting.getMeetingRoom());
+            dto.setCreatedBy(this.wxUserService.getName(meeting.getCreatedBy()));
             meetingDTOs.add(dto);
         }
 
@@ -113,6 +115,7 @@ public class MeetingController {
             dto.setEndTime(DateTimeUtil.formatDate(meeting.getEndTime(), "HH:mm"));
             dto.setTitle(meeting.getTitle());
             dto.setContent(meeting.getContent());
+            dto.setCreatedBy(this.wxUserService.getName(meeting.getCreatedBy()));
             meetingDTOs.add(dto);
         }
 
