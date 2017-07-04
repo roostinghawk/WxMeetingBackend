@@ -156,7 +156,7 @@ public class MeetingController {
             throw new CustomRuntimeException("500", "只有创建者能够更新会议");
         }
 
-        this.meetingRepository.save(meeting);
+        this.meetingService.update(meeting, dto.getCreatorName());
 
         return ResultDTO.success(meeting.getId());
     }
