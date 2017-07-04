@@ -9,7 +9,9 @@ public interface MeetingService {
 
     void sendMessage(final Meeting meeting);
 
-    Meeting create(final Meeting meeting, String formId);
+    Meeting create(final Meeting meeting, String formId, String creatorName);
+
+    Meeting update(final Meeting meeting, String creatorName);
 
     void join(final Meeting meeting, String openId, String formId);
 }

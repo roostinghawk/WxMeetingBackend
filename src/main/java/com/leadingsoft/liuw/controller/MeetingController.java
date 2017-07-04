@@ -136,7 +136,7 @@ public class MeetingController {
         String openId = SecurityUtils.getCurrentUserLogin();
         meeting.setCreatedBy(openId);
         meeting.getAttendees().add(openId);
-        this.meetingService.create(meeting, dto.getFormId());
+        this.meetingService.create(meeting, dto.getFormId(), dto.getCreatorName());
 
         return ResultDTO.success(meeting.getId());
     }
@@ -247,7 +247,8 @@ public class MeetingController {
                 || StringUtils.isEmpty(dto.getEndTime())
                 || StringUtils.isEmpty(dto.getTitle())
                 || StringUtils.isEmpty(dto.getMeetingRoom())
-                || StringUtils.isEmpty(dto.getContent())) {
+                || StringUtils.isEmpty(dto.getContent())
+                || StringUtils.isEmpty(dto.getCreatorName())) {
             throw new CustomRuntimeException("param.empty", "请输入必填项目");
         }
 

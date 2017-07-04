@@ -28,6 +28,8 @@ public class MeetingDTO {
 
     private String content;
 
+    private String creatorName;
+
     private String createdBy;
 
     private List<String> attendees = new ArrayList<String>();

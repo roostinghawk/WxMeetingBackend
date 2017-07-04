@@ -77,7 +77,9 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting create(final Meeting meeting, final String formId) {
+    public Meeting create(final Meeting meeting, final String formId, String creatorName) {
+        // 将CreatorName作为真实姓名
+        this.wxUserService.updateName(meeting.getCreatedBy(), creatorName);
         this.meetingRepository.save(meeting);
         final AttendeeInfo attendeeInfo = new AttendeeInfo();
         attendeeInfo.setOpenId(meeting.getAttendees().get(0));
@@ -85,8 +87,14 @@ public class MeetingServiceImpl implements MeetingService {
         attendeeInfo.setMeetingId(meeting.getId());
         this.attendeeInfoRepository.save(attendeeInfo);
 
-//        // TODO: 为了测试：发送消息
-//        this.sendMessage(meeting);
+        return meeting;
+    }
+
+    @Override
+    public Meeting update(Meeting meeting, String creatorName) {
+        // 将CreatorName作为真实姓名
+        this.wxUserService.updateName(meeting.getCreatedBy(), creatorName);
+        this.meetingRepository.save(meeting);
 
         return meeting;
     }

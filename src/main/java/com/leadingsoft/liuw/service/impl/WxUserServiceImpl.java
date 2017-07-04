@@ -1,5 +1,6 @@
 package com.leadingsoft.liuw.service.impl;
 
+import com.leadingsoft.liuw.exception.CustomRuntimeException;
 import com.leadingsoft.liuw.model.WxUser;
 import com.leadingsoft.liuw.repository.WxUserRepository;
 import com.leadingsoft.liuw.service.WxUserService;
@@ -38,8 +39,18 @@ public class WxUserServiceImpl implements WxUserService {
     @Override
     public String getName(String openId) {
         final WxUser creator = this.wxUserRepository.findOneByOpenIdFromApp(openId);
-        String name = creator.getName() != null ? creator.getName() : creator.getNickName();
+        return creator.getName() == null ? creator.getNickName() : creator.getName();
+    }
 
-        return name;
+    @Override
+    public void updateName(String openId, String name) {
+        final WxUser wxUser = this.wxUserRepository.findOneByOpenIdFromApp(openId);
+        if(wxUser == null) {
+            throw new CustomRuntimeException("404", "微信用户不存在");
+        }
+
+        wxUser.setName(name);
+
+        this.wxUserRepository.save(wxUser);
     }
 }
