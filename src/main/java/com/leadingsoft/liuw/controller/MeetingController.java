@@ -3,11 +3,8 @@ package com.leadingsoft.liuw.controller;
 import com.leadingsoft.liuw.dto.MeetingDTO;
 import com.leadingsoft.liuw.base.ResultDTO;
 import com.leadingsoft.liuw.exception.CustomRuntimeException;
-import com.leadingsoft.liuw.model.WxUser;
 import com.leadingsoft.liuw.model.Meeting;
-import com.leadingsoft.liuw.repository.AttendeeInfoRepository;
 import com.leadingsoft.liuw.repository.MeetingRepository;
-import com.leadingsoft.liuw.repository.WxUserRepository;
 import com.leadingsoft.liuw.service.MeetingService;
 import com.leadingsoft.liuw.service.WxUserService;
 import com.leadingsoft.liuw.utils.DateTimeUtil;
@@ -74,8 +71,8 @@ public class MeetingController {
     @RequestMapping(value = "/future", method = RequestMethod.GET)
     public List<MeetingDTO> listForFuture(){
         String openId = SecurityUtils.getCurrentUserLogin();
-        List<Meeting> meetings = this.meetingRepository.findByAttendeesContainsAndMeetingTimeAfterOrderByMeetingTimeDesc(
-                openId, DateTimeUtil.toZeroTime(new Date()));
+        List<Meeting> meetings = this.meetingRepository.findByMeetingTimeAfterOrderByMeetingTimeDesc(
+                DateTimeUtil.toZeroTime(new Date()));
 
         List<MeetingDTO> meetingDTOs = new ArrayList<>();
         for(Meeting meeting: meetings) {
