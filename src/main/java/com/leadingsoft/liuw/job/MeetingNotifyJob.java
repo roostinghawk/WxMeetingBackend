@@ -34,9 +34,9 @@ public class MeetingNotifyJob {
 
     @Scheduled(fixedRate = 60000)
     public void sendNotify() {
-        if (MeetingNotifyJob.log.isInfoEnabled()) {
-            MeetingNotifyJob.log.info("会议提醒Job开始...");
-        }
+//        if (MeetingNotifyJob.log.isInfoEnabled()) {
+//            MeetingNotifyJob.log.info("会议提醒Job开始...");
+//        }
 
         final Date compareDate = DateTimeUtil.addMinutes(new Date(), 10);
         final List<Meeting> meetings = this.meetingRepository.findByMeetingTimeBeforeAndNotifiedFalse(compareDate);
@@ -45,9 +45,9 @@ public class MeetingNotifyJob {
             this.meetingService.sendMessage(meeting);
         }
 
-        if (MeetingNotifyJob.log.isInfoEnabled()) {
-            MeetingNotifyJob.log.info("会议提醒Job完成...");
-        }
+//        if (MeetingNotifyJob.log.isInfoEnabled()) {
+//            MeetingNotifyJob.log.info("会议提醒Job完成...");
+//        }
 
     }
 }

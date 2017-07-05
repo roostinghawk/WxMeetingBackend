@@ -247,7 +247,7 @@ public class MeetingController {
                 || StringUtils.isEmpty(dto.getEndTime())
                 || StringUtils.isEmpty(dto.getTitle())
                 || StringUtils.isEmpty(dto.getMeetingRoom())
-                || StringUtils.isEmpty(dto.getContent())
+//                || StringUtils.isEmpty(dto.getContent())
                 || StringUtils.isEmpty(dto.getCreatorName())) {
             throw new CustomRuntimeException("param.empty", "请输入必填项目");
         }
