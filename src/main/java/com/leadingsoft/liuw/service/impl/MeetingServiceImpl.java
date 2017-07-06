@@ -124,7 +124,7 @@ public class MeetingServiceImpl implements MeetingService {
 
         final MeetingMessageData data = new MeetingMessageData();
         // 会议主题：绿色
-        data.setKeyword1(new MeetingMessageDataDetail("#00ff00", meeting.getTitle()));
+        data.setKeyword1(new MeetingMessageDataDetail("#04B034", meeting.getTitle()));
         data.setKeyword2(new MeetingMessageDataDetail("#173177", DateTimeUtil.formatDate(
                 meeting.getMeetingTime(), "yyyy-MM-dd HH:mm")));
         data.setKeyword3(new MeetingMessageDataDetail("#173177", meeting.getMeetingRoom()));
