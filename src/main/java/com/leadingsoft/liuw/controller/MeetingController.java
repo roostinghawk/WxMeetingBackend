@@ -93,6 +93,34 @@ public class MeetingController {
     }
 
     /**
+     * 获取今天及将来的会议一览
+     * @return
+     */
+    @RequestMapping(value = "/future/room", method = RequestMethod.GET)
+    public List<MeetingDTO> listForFutureByMeetingRoom(@RequestParam final String meetingRoom){
+        String openId = SecurityUtils.getCurrentUserLogin();
+        List<Meeting> meetings = this.meetingRepository.findByMeetingRoomAndMeetingTimeAfterOrderByMeetingTimeDesc(
+                meetingRoom, DateTimeUtil.toZeroTime(new Date()));
+
+        List<MeetingDTO> meetingDTOs = new ArrayList<>();
+        for(Meeting meeting: meetings) {
+            MeetingDTO dto = new MeetingDTO();
+            dto.setId(meeting.getId());
+            dto.setMeetingDate(DateTimeUtil.formatDate(meeting.getMeetingTime(), "yyyy-MM-dd"));
+            dto.setMeetingTime(DateTimeUtil.formatDate(meeting.getMeetingTime(), "HH:mm"));
+            dto.setEndTime(DateTimeUtil.formatDate(meeting.getEndTime(), "HH:mm"));
+            dto.setTitle(meeting.getTitle());
+            dto.setContent(meeting.getContent());
+            dto.setMeetingRoom(meeting.getMeetingRoom());
+            dto.setCreatedBy(this.wxUserService.getName(meeting.getCreatedBy()));
+            meetingDTOs.add(dto);
+        }
+
+        return meetingDTOs;
+
+    }
+
+    /**
      * 获取今天会议一览
      * @return
      */

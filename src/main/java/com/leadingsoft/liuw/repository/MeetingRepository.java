@@ -23,6 +23,8 @@ public interface MeetingRepository extends MongoRepository<Meeting, String> {
 
     List<Meeting> findByMeetingTimeAfterOrderByMeetingTimeDesc(Date startTime);
 
+    List<Meeting> findByMeetingRoomAndMeetingTimeAfterOrderByMeetingTimeDesc(String meetingRoom, Date startTime);
+
     List<Meeting> findByMeetingTimeBeforeAndNotifiedFalse(Date startTime);
 
     /**
